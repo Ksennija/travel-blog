@@ -1,4 +1,4 @@
-export type Country = {
+export type CountryType = {
     id: number;
     name: string;
     imageUrl: string;

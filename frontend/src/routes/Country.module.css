@@ -1,0 +1,28 @@
+.countryItem {
+    display: grid;
+    align-items: center; 
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5px;
+    padding-top: 10px;
+    padding-left: 50px;
+    text-align: left;
+   }
+  
+  .countryImg {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 300px;
+  }
+  
+  .countryDescription {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+  
+  .filter-button {
+    margin: 20px;
+  }
