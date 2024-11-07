@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { fetchUsers } from "../api";
-import { User } from "../types/userType";
-import { UserList } from "../components/usersList";
+import { fetchCountries } from "../api";
+import { Country } from "../types/Country";
+import { CountriesList } from "../components/CountriesList";
 
 export const UsersWrapper = () => {
-  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [allCountries, setAllUsers] = useState<Country[]>([]);
 
   useEffect(() => {
     async function fetchMyUsers() {
-      const fetchedUsers = await fetchUsers();
+      const fetchedUsers = await fetchCountries();
       setAllUsers(fetchedUsers);
     }
 
     fetchMyUsers();
   }, []);
 
-  return <UserList users={allUsers} />;
+  return <CountriesList countries={allCountries} />;
 };

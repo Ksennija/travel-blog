@@ -1,23 +1,24 @@
 import axios from "axios";
-import { User } from "./types/userType";
+
+export const baseImgUrl = "//localhost:3001/img";
 
 export const api = axios.create({
     baseURL: "//localhost:3001/api/",
     withCredentials: false,
   });
   
-  export const fetchUsers = () => {
-    const allUsers = api
-      .get('')//("/users")
+  export const fetchCountries = () => {
+    const allCountries = api
+      .get("/countries")
       .then((response) => {
-        // we get the user data, let's return it
         return response.data;
       })
       .catch((err) => {
         console.error(err);
-        // There is an error, we must return empty array
         return [];
       });
     
-    return allUsers;
+    return allCountries;
   };
+
+
