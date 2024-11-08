@@ -20,7 +20,7 @@ import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
-import Root from "./routes/Root";
+import Root, { loader as rootLoader } from "./routes/Root";
 import { Country } from "./routes/Country";
 import ErrorPage from "./ErrorPage";
 
@@ -29,6 +29,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
     children: [
       {
         path: "countries/:countryId",

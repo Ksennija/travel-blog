@@ -6,14 +6,14 @@ import { CountriesList } from "../components/CountriesList";
 export const UsersWrapper = () => {
   const [allCountries, setAllUsers] = useState<CountryType[]>([]);
 
-  useEffect(() => {
-    async function fetchMyUsers() {
-      const fetchedUsers = await fetchCountries();
-      setAllUsers(fetchedUsers);
-    }
+  // useEffect(() => {
+  //   async function fetchCountries() {
+  //     const fetchedCountries = await fetchCountries();
+  //     setAllUsers(fetchedCountries);
+  //   }
 
-    fetchMyUsers();
-  }, []);
+  //   fetchCountries();
+  // }, []);
 
   return <CountriesList countries={allCountries} />;
 };

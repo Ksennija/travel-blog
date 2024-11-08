@@ -1,8 +1,21 @@
+import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link, useLoaderData } from "react-router-dom";
+import { fetchCountries } from "../api";
+
+export type Props = {
+  countries: CountryType[];
+};
+
+export async function loader() {
+  const countries = await fetchCountries();
+  return { countries };
+}
 
 export default function Root() {
+  const { countries } = useLoaderData() as Props;
+
   return (
     <>
       <div id="sidebar">
@@ -27,14 +40,22 @@ export default function Root() {
           </form>
         </div>
         <nav>
-          <ul>
-            <li>
-              <a href={`/countries/1`}>Your Name</a>
-            </li>
-            <li>
-              <a href={`/countries/2`}>Your Friend</a>
-            </li>
-          </ul>
+          {countries.length ? (
+            <ul>
+              {countries.map((country) => (
+                <li key={country.id}>
+                  <Link to={`countries/${country.id}`}>
+                    {country.name ? <>{country.name}</> : <i>No Name</i>}{" "}
+                    {/* {contact.favorite && <span>★</span>} */}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              <i>The list is empty</i>
+            </p>
+          )}
         </nav>
       </div>
       <div id="detail">
