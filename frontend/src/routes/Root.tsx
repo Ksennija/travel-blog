@@ -1,12 +1,21 @@
 import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
-import { Outlet, Link, useLoaderData } from "react-router-dom";
-import { fetchCountries } from "../api";
+import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+import { fetchCountries, createCountry } from "../api";
 
 export type Props = {
   countries: CountryType[];
 };
+
+export async function action() {
+  const country = await createCountry({
+    name: "Praque",
+    description: "Some descriotion",
+    imageUrl: "https://i.imgur.com/r5etRvl.jpeg",
+  });
+  return { country };
+}
 
 export async function loader() {
   const countries = await fetchCountries();
@@ -35,9 +44,9 @@ export default function Root() {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav>
           {countries.length ? (

@@ -1,6 +1,6 @@
 import { Form } from "react-router-dom";
 import { CountryType } from "../types/CountryType";
-import { baseImgUrl } from "../api";
+//import { baseImgUrl } from "../api";
 
 import styles from "./Country.module.css";
 import React from "react";

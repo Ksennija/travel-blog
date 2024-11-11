@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CountryType } from "./types/CountryType";
+//import { error } from "console";
 
 export const baseImgUrl = "//localhost:3001/img";
 
@@ -17,6 +18,7 @@ export const fetchCountries = async (): Promise<CountriesResponse> => {
   try {
     const response = await api.get("/countries");
     const allCountries = response.data;
+    console.log(allCountries);
     return allCountries;
 
     // return {
@@ -31,10 +33,19 @@ export const fetchCountries = async (): Promise<CountriesResponse> => {
   }
 };
 
-export const createCountry = (newCountry: Omit<CountryType, "id">) => {
-  api.post("/countries/create", newCountry).then((response) => {
-    console.log(response);
-  });
+export const createCountry = async (
+  newCountry: Omit<CountryType, "id">
+): Promise<CountriesResponse> => {
+  try {
+    console.log(newCountry);
+    const response = await api.post("/countries/create", newCountry);
+    //const response = await api.get("/countries");
+    //const allCountries = response.data;
+    //console.log(allCountries);
+    return response.data;
+  } catch (e) {
+    return { error: e };
+  }
 };
 
 export const deleteCountry = (id: number) => {
