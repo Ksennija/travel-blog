@@ -9,11 +9,7 @@ export type Props = {
 };
 
 export async function action() {
-  const country = await createCountry({
-    name: "Praque",
-    description: "Some descriotion",
-    imageUrl: "https://i.imgur.com/r5etRvl.jpeg",
-  });
+  const country = await createCountry();
   return { country };
 }
 

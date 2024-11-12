@@ -33,9 +33,32 @@ export const fetchCountries = async (): Promise<CountriesResponse> => {
   }
 };
 
-export const createCountry = async (
-  newCountry: Omit<CountryType, "id">
-): Promise<CountriesResponse> => {
+export const getCountry = async (id: string): Promise<CountriesResponse> => {
+  try {
+    const response = await api.get("/countries/:" + id);
+    const country = response.data;
+    console.log(country);
+    return country;
+
+    // return {
+    //   allCountries,
+    //   error: undefined,
+    // };
+  } catch (e) {
+    return {
+      //allCountries: undefined,
+      error: e,
+    };
+  }
+};
+
+const newCountry = {
+  name: "New country",
+  description: "Some descriotion",
+  imageUrl: "https://i.imgur.com/r5etRvl.jpeg",
+};
+
+export const createCountry = async (): Promise<CountriesResponse> => {
   try {
     console.log(newCountry);
     const response = await api.post("/countries/create", newCountry);

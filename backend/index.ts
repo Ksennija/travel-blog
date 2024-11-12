@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { countries } from "./data/json/countries";
+//import { countries } from "./data/json/countries";
 import fs from "fs-extra";
 import bodyParser from "body-parser";
 import { ulid } from "ulid";
@@ -16,11 +16,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(imgUrl, express.static("data/img"));
 
-app.get(regUrl + "/countries", (req: Request, res: Response) => {
-  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
-  res.status(200).send(countries);
-});
-
 /**
  GET /countries
  GET /countries/{id}
@@ -30,11 +25,24 @@ app.get(regUrl + "/countries", (req: Request, res: Response) => {
  DELETE /countries/{id}
  */
 
-interface Country {
+app.get(regUrl + "/countries", (req: Request, res: Response) => {
+  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  res.status(200).send(countries);
+});
+
+app.get(regUrl + "/countries/:id", (req: Request, res: Response) => {
+  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  const country = countries.find(
+    (country: { id: string }) => country.id === req.params.id
+  );
+  res.status(200).send(country ?? null);
+});
+
+type Country = {
   id: string;
   name: string;
   description: string;
-}
+};
 
 type CreateCountryBody = Omit<Country, "id">;
 
