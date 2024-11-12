@@ -1,17 +1,11 @@
 import { Form, useLoaderData } from "react-router-dom";
-import { CountryType } from "../types/CountryType";
+import { CountryProps as Props } from "../props/CountryProps";
 import { baseImgUrl, getCountry } from "../api";
 
 import styles from "./Country.module.css";
 import React from "react";
 
-export type Props = {
-  country: CountryType;
-};
-
 export async function loader({ params }: any) {
-  console.log("country id ", params.countryId);
-
   const country = await getCountry(params.countryId);
   return { country };
 }

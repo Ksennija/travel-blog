@@ -1,6 +1,5 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
-//import { countries } from "./data/json/countries";
 import fs from "fs-extra";
 import bodyParser from "body-parser";
 import { ulid } from "ulid";
@@ -38,28 +37,29 @@ app.get(regUrl + "/countries/:id", (req: Request, res: Response) => {
   res.status(200).send(country ?? null);
 });
 
-type Country = {
-  id: string;
-  name: string;
-  description: string;
-};
+app.post(regUrl + "/countries/create", (req, res) => {
+  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  const newCountry = {
+    id: ulid(),
+    ...req.body,
+  };
+  countries.push(newCountry);
+  fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
+  console.log("JSON data saved to file successfully.");
+  res.status(200).send(newCountry);
+});
 
-type CreateCountryBody = Omit<Country, "id">;
-
-app.post<string, unknown, Country, CreateCountryBody>(
-  regUrl + "/countries/create",
-  (req, res) => {
-    const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
-    const newCountry = {
-      id: ulid(),
-      ...req.body,
-    };
-    countries.push(newCountry);
-    fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
-    console.log("JSON data saved to file successfully.");
-    res.status(200).send(newCountry);
-  }
-);
+app.put(regUrl + "/countries/:id/update", (req, res) => {
+  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  const country = countries.find(
+    (country: { id: string }) => country.id === req.params.id
+  );
+  if (!country) throw new Error("No contact found for " + req.params.id);
+  Object.assign(country, req.body);
+  fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
+  console.log("JSON data saved to file successfully.");
+  res.status(200).send(country);
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

@@ -1,12 +1,8 @@
-import { CountryType } from "../types/CountryType";
+import { CountriesProps as Props } from "../props/CountryProps";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
 import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
 import { fetchCountries, createCountry } from "../api";
-
-export type Props = {
-  countries: CountryType[];
-};
 
 export async function action() {
   const country = await createCountry();

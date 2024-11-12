@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CountryType } from "./types/CountryType";
+import { CountryProps } from "./props/CountryProps";
 //import { error } from "console";
 
 const newCountry = {
@@ -21,7 +22,7 @@ export type CountriesResponse = {
 };
 
 export type CountryResponse = {
-  allCountries?: CountryType;
+  country?: CountryType;
   error?: unknown;
 };
 
@@ -48,22 +49,28 @@ export const getCountry = async (id: string): Promise<CountryResponse> => {
     const response = await api.get("/countries/" + id);
     const country = response.data;
     return country;
-
-    // return {
-    //   allCountries,
-    //   error: undefined,
-    // };
   } catch (e) {
     return {
-      //allCountries: undefined,
       error: e,
     };
   }
 };
 
-export const createCountry = async (): Promise<CountriesResponse> => {
+export const createCountry = async (): Promise<CountryResponse> => {
   try {
     const response = await api.post("/countries/create", newCountry);
+    return response.data;
+  } catch (e) {
+    return { error: e };
+  }
+};
+
+export const updateCountry = async (
+  id: string,
+  updates: CountryProps
+): Promise<CountryResponse> => {
+  try {
+    const response = await api.put("/countries/" + id + "/update", updates);
     return response.data;
   } catch (e) {
     return { error: e };
