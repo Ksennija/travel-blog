@@ -24,7 +24,7 @@ import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/Root";
-import { Country } from "./routes/Country";
+import { Country, loader as CountryLoader } from "./routes/Country";
 import ErrorPage from "./ErrorPage";
 
 const router = createBrowserRouter([
@@ -38,6 +38,7 @@ const router = createBrowserRouter([
       {
         path: "countries/:countryId",
         element: <Country />,
+        loader: CountryLoader,
       },
     ],
   },

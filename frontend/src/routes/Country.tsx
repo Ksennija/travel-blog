@@ -1,6 +1,6 @@
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
 import { CountryType } from "../types/CountryType";
-//import { baseImgUrl } from "../api";
+import { baseImgUrl, getCountry } from "../api";
 
 import styles from "./Country.module.css";
 import React from "react";
@@ -9,13 +9,15 @@ export type Props = {
   country: CountryType;
 };
 
-export const Country: React.FC = (/*{ country }: Props*/) => {
-  let country = {
-    id: 1,
-    name: "New country",
-    imageUrl: "https://i.imgur.com/r5etRvl.jpeg",
-    description: "Write down something about this country",
-  };
+export async function loader({ params }: any) {
+  console.log("country id ", params.countryId);
+
+  const country = await getCountry(params.countryId);
+  return { country };
+}
+
+export const Country: React.FC = () => {
+  const { country } = useLoaderData() as Props;
 
   return (
     <div key={country.id} className={styles.countryItem}>
@@ -23,7 +25,7 @@ export const Country: React.FC = (/*{ country }: Props*/) => {
         <img
           className={styles.countryImg}
           alt={country.name}
-          src={/*baseImgUrl + */ country.imageUrl}
+          src={country.imageUrl && baseImgUrl + country.imageUrl}
         />
         <div>{country.name}</div>
         <br />
