@@ -1,12 +1,20 @@
 import { CountriesProps as Props } from "../props/CountryProps";
+import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
-import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+import {
+  Outlet,
+  NavLink,
+  useLoaderData,
+  Form,
+  redirect,
+  useNavigation,
+} from "react-router-dom";
 import { fetchCountries, createCountry } from "../api";
 
 export async function action() {
-  const country = await createCountry();
-  return { country };
+  const country = (await createCountry()) as CountryType;
+  return redirect(`/countries/${country.id}}/edit`);
 }
 
 export async function loader() {
@@ -16,6 +24,7 @@ export async function loader() {
 
 export default function Root() {
   const { countries } = useLoaderData() as Props;
+  const navigation = useNavigation();
 
   return (
     <>
@@ -45,10 +54,15 @@ export default function Root() {
             <ul>
               {countries.map((country) => (
                 <li key={country.id}>
-                  <Link to={`countries/${country.id}`}>
+                  <NavLink
+                    to={`countries/${country.id}`}
+                    className={({ isActive, isPending }) =>
+                      isActive ? "active" : isPending ? "pending" : ""
+                    }
+                  >
                     {country.name ? <>{country.name}</> : <i>No Name</i>}{" "}
                     {/* {contact.favorite && <span>★</span>} */}
-                  </Link>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -59,7 +73,10 @@ export default function Root() {
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div
+        id="detail"
+        className={navigation.state === "loading" ? "loading" : ""}
+      >
         <Outlet />
       </div>
     </>
