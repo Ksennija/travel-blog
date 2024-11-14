@@ -37,7 +37,11 @@ export default function EditCountry() {
       </label>
       <label>
         <span>Description</span>
-        <textarea name="notes" defaultValue={country?.description} rows={6} />
+        <textarea
+          name="description"
+          defaultValue={country?.description}
+          rows={6}
+        />
       </label>
       <p>
         <button type="submit">Save</button>

@@ -69,6 +69,7 @@ export const updateCountry = async (
   id: string,
   updates: CountryProps
 ): Promise<CountryResponse> => {
+  console.log(updates);
   try {
     const response = await api.put("/countries/" + id + "/update", updates);
     return response.data;
