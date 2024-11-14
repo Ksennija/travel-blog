@@ -30,11 +30,6 @@ export const fetchCountries = async (): Promise<CountriesResponse> => {
     const response = await api.get(`/countries`);
     const allCountries = response.data;
     return allCountries;
-
-    // return {
-    //   allCountries,
-    //   error: undefined,
-    // };
   } catch (e) {
     return { error: e };
   }
@@ -74,7 +69,7 @@ export const updateCountry = async (
 export const deleteCountry = async (id: string): Promise<Response | object> => {
   try {
     const response = await api.delete(`/countries/${id}/destroy`);
-    return response.data;
+    return response;
   } catch (e) {
     return { error: e };
   }

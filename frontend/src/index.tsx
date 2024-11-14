@@ -34,6 +34,7 @@ const router = createBrowserRouter([
       {
         path: "countries/:countryId/destroy",
         action: destroyAction,
+        errorElement: <div>Oops! There was an error.</div>,
       },
     ],
   },
