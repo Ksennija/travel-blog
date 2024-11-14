@@ -15,7 +15,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(imgUrl, express.static("data/img"));
 
-/**
+/** 
+ * The most useful API methods:
  GET /countries
  GET /countries/{id}
  POST /countries
@@ -24,6 +25,7 @@ app.use(imgUrl, express.static("data/img"));
  DELETE /countries/{id}
  */
 
+// Countries methods
 app.get(regUrl + "/countries", (req: Request, res: Response) => {
   const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
   res.status(200).send(countries);
