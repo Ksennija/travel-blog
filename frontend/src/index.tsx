@@ -1,19 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useNavigation,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/Root";
-import { Country, loader as CountryLoader } from "./routes/Country";
+import { Country, loader as countryLoader } from "./routes/Country";
 import ErrorPage from "./ErrorPage";
-import EditCountry, { action as EditAction } from "./routes/Edit";
+import EditCountry, { action as editAction } from "./routes/Edit";
+import { action as destroyAction } from "./routes/Destroy";
 
 const router = createBrowserRouter([
   {
@@ -26,13 +23,17 @@ const router = createBrowserRouter([
       {
         path: "countries/:countryId",
         element: <Country />,
-        loader: CountryLoader,
+        loader: countryLoader,
       },
       {
         path: "countries/:countryId/edit",
         element: <EditCountry />,
-        loader: CountryLoader,
-        action: EditAction,
+        loader: countryLoader,
+        action: editAction,
+      },
+      {
+        path: "countries/:countryId/destroy",
+        action: destroyAction,
       },
     ],
   },
