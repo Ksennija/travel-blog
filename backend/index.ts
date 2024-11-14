@@ -39,7 +39,7 @@ app.get(regUrl + "/countries/:id", (req: Request, res: Response) => {
   res.status(200).send(country ?? null);
 });
 
-app.post(regUrl + "/countries/create", (req, res) => {
+app.post(regUrl + "/countries/create", (req: Request, res: Response) => {
   const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
   const newCountry = {
     id: ulid(),
@@ -51,7 +51,7 @@ app.post(regUrl + "/countries/create", (req, res) => {
   res.status(200).send(newCountry);
 });
 
-app.put(regUrl + "/countries/:id/update", (req, res) => {
+app.put(regUrl + "/countries/:id/update", (req: Request, res: Response) => {
   const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
   const country = countries.find(
     (country: { id: string }) => country.id === req.params.id
@@ -61,6 +61,19 @@ app.put(regUrl + "/countries/:id/update", (req, res) => {
   fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
   console.log("JSON data saved to file successfully.");
   res.status(200).send(country);
+});
+
+app.delete(regUrl + "/countries/:id/destroy", (req: Request, res: Response) => {
+  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  const index = countries.findIndex(
+    (country: { id: string }) => country.id === req.params.id
+  );
+  if (index > -1) {
+    countries.splice(index, 1);
+  }
+  fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
+  console.log("JSON data saved to file successfully.");
+  res.status(200).send(true);
 });
 
 app.listen(port, () => {

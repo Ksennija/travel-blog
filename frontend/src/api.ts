@@ -1,7 +1,6 @@
 import axios from "axios";
 import { CountryType } from "./types/CountryType";
 import { CountryProps } from "./props/CountryProps";
-//import { error } from "console";
 
 const newCountry = {
   name: "New country",
@@ -28,7 +27,7 @@ export type CountryResponse = {
 
 export const fetchCountries = async (): Promise<CountriesResponse> => {
   try {
-    const response = await api.get("/countries");
+    const response = await api.get(`/countries`);
     const allCountries = response.data;
     return allCountries;
 
@@ -37,28 +36,23 @@ export const fetchCountries = async (): Promise<CountriesResponse> => {
     //   error: undefined,
     // };
   } catch (e) {
-    return {
-      //allCountries: undefined,
-      error: e,
-    };
+    return { error: e };
   }
 };
 
 export const getCountry = async (id: string): Promise<CountryResponse> => {
   try {
-    const response = await api.get("/countries/" + id);
+    const response = await api.get(`/countries/${id}`);
     const country = response.data;
     return country;
   } catch (e) {
-    return {
-      error: e,
-    };
+    return { error: e };
   }
 };
 
 export const createCountry = async (): Promise<CountryResponse> => {
   try {
-    const response = await api.post("/countries/create", newCountry);
+    const response = await api.post(`/countries/create`, newCountry);
     return response.data;
   } catch (e) {
     return { error: e };
@@ -69,23 +63,19 @@ export const updateCountry = async (
   id: string,
   updates: CountryProps
 ): Promise<CountryResponse> => {
-  console.log(updates);
   try {
-    const response = await api.put("/countries/" + id + "/update", updates);
+    const response = await api.put(`/countries/${id}/update`, updates);
     return response.data;
   } catch (e) {
     return { error: e };
   }
 };
 
-export const deleteCountry = (id: number) => {
-  return api
-    .delete(`/countries/delete`, {
-      data: {
-        id,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-    });
+export const deleteCountry = async (id: string): Promise<Response | object> => {
+  try {
+    const response = await api.delete(`/countries/${id}/destroy`);
+    return response.data;
+  } catch (e) {
+    return { error: e };
+  }
 };
