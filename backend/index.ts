@@ -3,6 +3,7 @@ import cors from "cors";
 import fs from "fs-extra";
 import bodyParser from "body-parser";
 import { ulid } from "ulid";
+import { matchSorter } from "match-sorter";
 
 const app = express();
 const port = 3001;
@@ -29,6 +30,15 @@ app.use(imgUrl, express.static("data/img"));
 app.get(regUrl + "/countries", (req: Request, res: Response) => {
   const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
   res.status(200).send(countries);
+});
+
+app.get(regUrl + "/countries/:query", (req: Request, res: Response) => {
+  let countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
+  if (req.params.query) {
+    countries = matchSorter(countries, req.params.query, { keys: ["name"] });
+  }
+
+  res.status(200).send(countries ?? []);
 });
 
 app.get(regUrl + "/countries/:id", (req: Request, res: Response) => {

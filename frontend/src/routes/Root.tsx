@@ -17,8 +17,10 @@ export async function action() {
   return redirect(`/countries/${country.id}}/edit`);
 }
 
-export async function loader() {
-  const countries = await fetchCountries();
+export async function loader({ request }: any) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q");
+  const countries = await fetchCountries(q);
   return { countries };
 }
 
@@ -34,7 +36,7 @@ export default function Root() {
           <h1>Travel Blog Application</h1>
         </span>
         <div>
-          <form id="search-form" role="search">
+          <Form id="search-form" role="search">
             <input
               id="q"
               aria-label="Search contacts"
@@ -44,7 +46,7 @@ export default function Root() {
             />
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
-          </form>
+          </Form>
           <Form method="post">
             <button type="submit">New</button>
           </Form>

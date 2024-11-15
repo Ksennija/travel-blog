@@ -25,10 +25,14 @@ export type CountryResponse = {
   error?: unknown;
 };
 
-export const fetchCountries = async (): Promise<CountriesResponse> => {
+export const fetchCountries = async (
+  query: string | null
+): Promise<CountriesResponse> => {
+  console.log(`/countries${query ? "/" + query : ""}`);
   try {
-    const response = await api.get(`/countries`);
+    const response = await api.get(`/countries${query ? "/" + query : ""}`);
     const allCountries = response.data;
+    console.log(allCountries);
     return allCountries;
   } catch (e) {
     return { error: e };
