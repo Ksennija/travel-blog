@@ -1,4 +1,3 @@
-import { CountriesProps as Props } from "../props/CountryProps";
 import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
@@ -9,8 +8,15 @@ import {
   Form,
   redirect,
   useNavigation,
+  useSubmit,
 } from "react-router-dom";
 import { fetchCountries, createCountry } from "../api";
+import { useEffect } from "react";
+
+export type LoaderDataProps = {
+  countries: CountryType[];
+  q: string;
+};
 
 export async function action() {
   const country = (await createCountry()) as CountryType;
@@ -21,12 +27,21 @@ export async function loader({ request }: any) {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
   const countries = await fetchCountries(q);
-  return { countries };
+  return { countries, q };
 }
 
 export default function Root() {
-  const { countries } = useLoaderData() as Props;
+  const { countries, q } = useLoaderData() as LoaderDataProps;
   const navigation = useNavigation();
+  const submit = useSubmit();
+
+  const searching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("q");
+
+  useEffect(() => {
+    (document.getElementById("q") as HTMLInputElement).value = q;
+  }, [q]);
 
   return (
     <>
@@ -39,12 +54,20 @@ export default function Root() {
           <Form id="search-form" role="search">
             <input
               id="q"
-              aria-label="Search contacts"
+              className={searching ? "loading" : ""}
+              aria-label="Search countries"
               placeholder="Search"
               type="search"
               name="q"
+              defaultValue={q}
+              onChange={(event) => {
+                const isFirstSearch = q == null;
+                submit(event.currentTarget.form, {
+                  replace: !isFirstSearch,
+                });
+              }}
             />
-            <div id="search-spinner" aria-hidden hidden={true} />
+            <div id="search-spinner" aria-hidden hidden={!searching} />
             <div className="sr-only" aria-live="polite"></div>
           </Form>
           <Form method="post">
