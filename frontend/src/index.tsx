@@ -7,7 +7,11 @@ import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/Root";
-import { Country, loader as countryLoader } from "./routes/Country";
+import {
+  Country,
+  loader as countryLoader,
+  action as countryAction,
+} from "./routes/Country";
 import ErrorPage from "./ErrorPage";
 import EditCountry, { action as editAction } from "./routes/Edit";
 import { action as destroyAction } from "./routes/Destroy";
@@ -26,6 +30,7 @@ const router = createBrowserRouter([
         path: "countries/:countryId",
         element: <Country />,
         loader: countryLoader,
+        action: countryAction,
       },
       {
         path: "countries/:countryId/edit",

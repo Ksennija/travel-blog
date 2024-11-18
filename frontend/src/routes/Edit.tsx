@@ -1,11 +1,10 @@
 import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
-
 import { updateCountry } from "../api";
 
 export async function action({ request, params }: any) {
   const formData = await request.formData();
-  const updates = Object.fromEntries(formData) as Props;
+  const updates = Object.fromEntries(formData);
   await updateCountry(params.countryId, updates);
   return redirect(`/countries/${params.countryId}`);
 }

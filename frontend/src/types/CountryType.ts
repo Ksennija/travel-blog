@@ -3,4 +3,5 @@ export type CountryType = {
   name: string;
   imageUrl?: string;
   description: string;
+  favourite: boolean;
 };

@@ -28,17 +28,14 @@ app.use(imgUrl, express.static("data/img"));
 
 // Countries methods
 app.get(regUrl + "/countries", (req: Request, res: Response) => {
-  const countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
-  res.status(200).send(countries);
-});
-
-app.get(regUrl + "/countries/:query", (req: Request, res: Response) => {
   let countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
-  if (req.params.query) {
-    countries = matchSorter(countries, req.params.query, { keys: ["name"] });
+  const query = Object(req.query);
+  if (Object.keys(query).length !== 0) {
+    countries = matchSorter(countries, query.query, {
+      keys: ["name"],
+    });
   }
-
-  res.status(200).send(countries ?? []);
+  res.status(200).send(countries);
 });
 
 app.get(regUrl + "/countries/:id", (req: Request, res: Response) => {

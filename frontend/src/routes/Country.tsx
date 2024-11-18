@@ -1,18 +1,26 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useLoaderData, useFetcher } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
-import { baseImgUrl, getCountry } from "../api";
+import { baseImgUrl, getCountry, updateCountry } from "../api";
 
 import styles from "./Country.module.css";
 import React from "react";
 
 export async function loader({ params }: any) {
   const country = await getCountry(params.countryId);
+  console.log(country);
   return { country };
+}
+
+export async function action({ request, params }: any) {
+  const formData = await request.formData();
+  return updateCountry(params.countryId, {
+    favourite: formData.get("favourite") === "true",
+  });
 }
 
 export const Country: React.FC = () => {
   const { country } = useLoaderData() as Props;
-
+  console.log(country);
   return (
     <div key={country.id} className={styles.countryItem}>
       <div>
@@ -24,7 +32,6 @@ export const Country: React.FC = () => {
         <div>{country.name}</div>
         <br />
         <div className={styles.countryDescription}>{country.description}</div>
-        {/* <button onClick={handleUserDelete}>Delete</button> */}
       </div>
       <div>
         <Form action="edit">
@@ -48,21 +55,19 @@ export const Country: React.FC = () => {
   );
 };
 
-// function Favorite({ contact }) {
-//   const favorite = contact.favorite;
-//   return (
-//     <Form method="post">
-//       <button
-//         name="favorite"
-//         value={favorite ? "false" : "true"}
-//         aria-label={
-//           favorite
-//             ? "Remove from favorites"
-//             : "Add to favorites"
-//         }
-//       >
-//         {favorite ? "★" : "☆"}
-//       </button>
-//     </Form>
-//   );
-// }
+function Favourite({ country }: Props) {
+  const favourite = country.favourite;
+  const fetcher = useFetcher();
+
+  return (
+    <fetcher.Form method="post">
+      <button
+        name="favourite"
+        value={favourite ? "false" : "true"}
+        aria-label={favourite ? "Remove from favourites" : "Add to favourites"}
+      >
+        {favourite ? "★" : "☆"}
+      </button>
+    </fetcher.Form>
+  );
+}
