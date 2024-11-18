@@ -58,8 +58,11 @@ export const Country: React.FC = () => {
 };
 
 function Favourite({ country }: Props) {
-  const favourite = country.favourite;
   const fetcher = useFetcher();
+
+  const favourite = fetcher.formData
+    ? fetcher.formData.get("favorite") === "true"
+    : country.favourite;
 
   return (
     <fetcher.Form method="post">
