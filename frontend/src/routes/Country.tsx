@@ -7,7 +7,6 @@ import React from "react";
 
 export async function loader({ params }: any) {
   const country = await getCountry(params.countryId);
-  console.log(country);
   return { country };
 }
 
@@ -29,7 +28,10 @@ export const Country: React.FC = () => {
           alt={country.name}
           src={country.imageUrl && baseImgUrl + country.imageUrl}
         />
-        <div>{country.name}</div>
+        <div>
+          {country.name}
+          <Favourite country={country} />
+        </div>
         <br />
         <div className={styles.countryDescription}>{country.description}</div>
       </div>

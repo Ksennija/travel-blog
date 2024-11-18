@@ -86,7 +86,7 @@ export default function Root() {
                     }
                   >
                     {country.name ? <>{country.name}</> : <i>No Name</i>}{" "}
-                    {/* {contact.favorite && <span>★</span>} */}
+                    {country.favourite && <span>★</span>}
                   </NavLink>
                 </li>
               ))}
