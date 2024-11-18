@@ -7,6 +7,12 @@ import React from "react";
 
 export async function loader({ params }: any) {
   const country = await getCountry(params.countryId);
+  if (!country) {
+    throw new Response("", {
+      status: 404,
+      statusText: "Not Found",
+    });
+  }
   return { country };
 }
 

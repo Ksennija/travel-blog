@@ -25,23 +25,28 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: rootAction,
     children: [
-      { index: true, element: <Index /> },
       {
-        path: "countries/:countryId",
-        element: <Country />,
-        loader: countryLoader,
-        action: countryAction,
-      },
-      {
-        path: "countries/:countryId/edit",
-        element: <EditCountry />,
-        loader: countryLoader,
-        action: editAction,
-      },
-      {
-        path: "countries/:countryId/destroy",
-        action: destroyAction,
-        errorElement: <div>Oops! There was an error.</div>,
+        errorElement: <ErrorPage />,
+        children: [
+          { index: true, element: <Index /> },
+          {
+            path: "countries/:countryId",
+            element: <Country />,
+            loader: countryLoader,
+            action: countryAction,
+          },
+          {
+            path: "countries/:countryId/edit",
+            element: <EditCountry />,
+            loader: countryLoader,
+            action: editAction,
+          },
+          {
+            path: "countries/:countryId/destroy",
+            action: destroyAction,
+            errorElement: <div>Oops! There was an error.</div>,
+          },
+        ],
       },
     ],
   },
