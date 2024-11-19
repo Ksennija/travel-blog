@@ -78,7 +78,7 @@ function Favourite({ country }: Props) {
   const fetcher = useFetcher();
 
   const favourite = fetcher.formData
-    ? fetcher.formData.get("favorite") === "true"
+    ? fetcher.formData.get("favourite") === "true"
     : country.favourite;
 
   return (
