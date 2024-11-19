@@ -1,9 +1,11 @@
+import DOMPurify from "dompurify";
+import { marked } from "marked";
 import { Form, useLoaderData, useFetcher } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
 import { baseImgUrl, getCountry, updateCountry } from "../api";
 
 import styles from "./Country.module.css";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 export async function loader({ params }: any) {
   const country = await getCountry(params.countryId);
@@ -25,23 +27,18 @@ export async function action({ request, params }: any) {
 
 export const Country: React.FC = () => {
   const { country } = useLoaderData() as Props;
-  console.log(country);
+
+  const descriptionElRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    descriptionElRef.current!.innerHTML = DOMPurify.sanitize(
+      marked.parse(country.description) as string
+    );
+  }, [country.description]);
+
   return (
     <div key={country.id} className={styles.countryItem}>
-      <div>
-        <img
-          className={styles.countryImg}
-          alt={country.name}
-          src={country.imageUrl && baseImgUrl + country.imageUrl}
-        />
-        <div>
-          {country.name}
-          <Favourite country={country} />
-        </div>
-        <br />
-        <div className={styles.countryDescription}>{country.description}</div>
-      </div>
-      <div>
+      <div className={styles.buttonPanel}>
         <Form action="edit">
           <button type="submit">Edit</button>
         </Form>
@@ -58,6 +55,20 @@ export const Country: React.FC = () => {
         >
           <button type="submit">Delete</button>
         </Form>
+      </div>
+      <div className={styles.countryContainer}>
+        <img
+          className={styles.countryImg}
+          alt={country.name}
+          src={country.imageUrl && baseImgUrl + country.imageUrl}
+        />
+        <div className={styles.countryText}>
+          <h1>
+            {country.name}
+            <Favourite country={country} />
+          </h1>
+          <p className={styles.countryDescription} ref={descriptionElRef} />
+        </div>
       </div>
     </div>
   );
