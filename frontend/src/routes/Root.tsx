@@ -1,6 +1,6 @@
 import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faMountainSun } from "@fortawesome/free-solid-svg-icons";
 import {
   Outlet,
   NavLink,
@@ -75,6 +75,19 @@ export default function Root() {
           </Form>
         </div>
         <nav>
+          <ul>
+            <li>
+              <NavLink
+                to={`/`}
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+              >
+                <FontAwesomeIcon icon={faHouse} />
+                Home
+              </NavLink>
+            </li>
+          </ul>
           {countries.length ? (
             <ul>
               {countries.map((country) => (
