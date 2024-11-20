@@ -15,6 +15,7 @@ import {
 import ErrorPage from "./ErrorPage";
 import EditCountry, { action as editAction } from "./routes/Edit";
 import { action as destroyAction } from "./routes/Destroy";
+import { action as favouritesAction } from "./routes/Favourites";
 import Index from "./routes/Index";
 
 const router = createBrowserRouter([
@@ -29,6 +30,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           { index: true, element: <Index /> },
+          {
+            path: "/",
+            element: <Index />,
+            loader: rootLoader,
+          },
+          {
+            path: "/favourites",
+            element: <Index />,
+            loader: rootLoader,
+          },
           {
             path: "countries/:countryId",
             element: <Country />,

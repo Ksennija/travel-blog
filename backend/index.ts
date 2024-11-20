@@ -31,9 +31,15 @@ app.get(regUrl + "/countries", (req: Request, res: Response) => {
   let countries = fs.readJSONSync(COUNTRIES_JSON_PATH);
   const query = Object(req.query);
   if (Object.keys(query).length !== 0) {
-    countries = matchSorter(countries, query.query, {
-      keys: ["name"],
-    });
+    if (query.query === "favourites") {
+      countries = countries.filter(
+        (country: { favourite: boolean }) => country.favourite === true
+      );
+    } else {
+      countries = matchSorter(countries, query.query, {
+        keys: ["name"],
+      });
+    }
   }
   res.status(200).send(countries);
 });

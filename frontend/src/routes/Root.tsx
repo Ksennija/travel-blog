@@ -1,6 +1,6 @@
 import { CountryType } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMountainSun } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faMountainSun } from "@fortawesome/free-solid-svg-icons";
 import {
   Outlet,
   NavLink,
@@ -10,7 +10,7 @@ import {
   useNavigation,
   useSubmit,
 } from "react-router-dom";
-import { fetchCountries, createCountry } from "../api";
+import { fetchCountries, createCountry, CountriesResponse } from "../api";
 import { useEffect } from "react";
 
 export type LoaderDataProps = {
@@ -18,15 +18,27 @@ export type LoaderDataProps = {
   q: string;
 };
 
+const sortProp = "favourites";
+
 export async function action() {
+  debugger;
   const country = (await createCountry()) as CountryType;
   return redirect(`/countries/${country.id}}/edit`);
 }
 
 export async function loader({ request }: any) {
+  debugger;
+  let countries: CountriesResponse;
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
-  const countries = await fetchCountries(q);
+  if (url.pathname.substring(1) === sortProp) {
+    countries = await fetchCountries(q);
+  } else {
+    countries = await fetchCountries(sortProp);
+  }
+  console.log(q);
+
+  //const countries = await fetchCountries(q);
   return { countries, q };
 }
 
@@ -75,6 +87,35 @@ export default function Root() {
           </Form>
         </div>
         <nav>
+          <ul>
+            <li key="home">
+              <NavLink
+                to="/"
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+                // onClick={(event) => {
+                //   const isFirstSearch = q == null;
+                //   submit(event.currentTarget.form, {
+                //     replace: !isFirstSearch,
+                //   });
+                // }}
+              >
+                <FontAwesomeIcon icon={faHouse} />
+                Home
+              </NavLink>
+            </li>
+            <li key="favourites">
+              <NavLink
+                to={`/${sortProp}`}
+                className={({ isActive, isPending }) =>
+                  isActive ? "active" : isPending ? "pending" : ""
+                }
+              >
+                <span>★</span>Favourites
+              </NavLink>
+            </li>
+          </ul>
           {countries.length ? (
             <ul>
               {countries.map((country) => (

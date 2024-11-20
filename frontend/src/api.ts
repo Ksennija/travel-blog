@@ -29,6 +29,7 @@ export const fetchCountries = async (
   query: string | null
 ): Promise<CountriesResponse> => {
   try {
+    console.log(query);
     const response = await api.get(
       `/countries${query ? "?query=" + query : ""}`
     );
