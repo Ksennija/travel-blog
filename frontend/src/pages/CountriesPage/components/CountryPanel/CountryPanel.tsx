@@ -9,31 +9,27 @@ import {
 } from "../../../../api/countriesApi";
 
 import styles from "./CountryPanel.module.css";
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export type Props = {
-  country: Country;
+  displayedCountry: Country;
+  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
 };
-// export async function loader({ params }: any) {
-//   const country = await getCountry(params.countryId);
-//   if (!country) {
-//     throw new Response("", {
-//       status: 404,
-//       statusText: "Not Found",
-//     });
-//   }
-//   return { country };
-// }
 
-// export async function action({ request, params }: any) {
-//   const formData = await request.formData();
-//   return updateCountry(params.countryId, {
-//     favourite: formData.get("favourite") === "true",
-//   });
-// }
-
-export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
+export const CountryPanel: React.FC<Props> = ({
+  displayedCountry,
+  setIsLoaded,
+}) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
+
+  const [country, setCountry] = useState(displayedCountry);
+
+  async function update(id: string, country: Country) {
+    setIsLoaded(true);
+    const newCountry = (await updateCountry(id, country)) as Country;
+    setCountry(newCountry);
+    setIsLoaded(false);
+  }
 
   useEffect(() => {
     if (descriptionElRef.current) {
@@ -42,6 +38,11 @@ export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
       );
     }
   }, [country.description]);
+
+  const handleFavouritesClick = (): void => {
+    country.favourite = !country.favourite;
+    update(country.id, country);
+  };
 
   return (
     <div key={country.id} className={styles.countryItem}>
@@ -81,6 +82,7 @@ export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
                   ? "Remove from favourites"
                   : "Add to favourites"
               }
+              onClick={handleFavouritesClick}
             >
               {country.favourite ? "★" : "☆"}
             </button>
@@ -92,24 +94,6 @@ export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
     </div>
   );
 };
-
-function Favourite({ country }: Props) {
-  //const fetcher = useFetcher();
-  //   const favourite = fetcher.formData
-  //     ? fetcher.formData.get("favourite") === "true"
-  //     : country.favourite;
-  //   return (
-  //     <form method="post">
-  //       <button
-  //         name="favourite"
-  //     //     value={favourite ? "false" : "true"}
-  //     //     aria-label={favourite ? "Remove from favourites" : "Add to favourites"}
-  //     //   >
-  //     //     {favourite ? "★" : "☆"}
-  //       </button>
-  //     </form>
-  //   );
-}
 
 /* import React from "react";
 import { useNavigate, useParams } from "react-router-dom";

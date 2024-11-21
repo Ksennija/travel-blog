@@ -34,7 +34,10 @@ export const CountriesPage: React.FC = () => {
       <Sidebar countries={countries} />
       <div className={`${styles.detail} ${isLoaded ? styles.loading : ""}`}>
         {countryId ? (
-          <CountryPanel country={getCountry(countries, countryId)} />
+          <CountryPanel
+            displayedCountry={getCountry(countries, countryId)}
+            setIsLoaded={setIsLoaded}
+          />
         ) : (
           <WelcomePanel />
         )}

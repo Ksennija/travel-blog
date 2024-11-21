@@ -59,7 +59,7 @@
     color: #eeb004;
   }
 
-  .favouriteButton[value="true"]:hover {
+  .favouriteButton:hover {
     box-shadow: none;
   }
 
