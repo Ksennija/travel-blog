@@ -1,6 +1,6 @@
 import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
-import { updateCountry } from "../api";
+import { updateCountry } from "../api/countriesApi";
 
 export async function action({ request, params }: any) {
   const formData = await request.formData();
@@ -10,6 +10,7 @@ export async function action({ request, params }: any) {
 }
 
 export default function EditCountry() {
+  debugger;
   const { country } = useLoaderData() as Props;
   const navigate = useNavigate();
 

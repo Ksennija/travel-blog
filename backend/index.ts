@@ -11,6 +11,7 @@ const regUrl = "/api";
 const imgUrl = "/img";
 
 const COUNTRIES_JSON_PATH = "./data/json/countries.json";
+const FEEDBACKS_JSON_PATH = "./data/json/feedbacks.json";
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -81,6 +82,25 @@ app.delete(regUrl + "/countries/:id/destroy", (req: Request, res: Response) => {
   fs.writeJSONSync(COUNTRIES_JSON_PATH, countries);
   console.log("JSON data saved to file successfully.");
   res.status(200).send(true);
+});
+
+// Feedback metods
+
+app.get(regUrl + "/feedbacks", (req: Request, res: Response) => {
+  let feedbacks = fs.readJSONSync(FEEDBACKS_JSON_PATH);
+  res.status(200).send(feedbacks);
+});
+
+app.post(regUrl + "/feedbacks/create", (req: Request, res: Response) => {
+  const feedbacks = fs.readJSONSync(FEEDBACKS_JSON_PATH);
+  const newFeedback = {
+    id: ulid(),
+    ...req.body,
+  };
+  feedbacks.push(newFeedback);
+  fs.writeJSONSync(FEEDBACKS_JSON_PATH, feedbacks);
+  console.log("JSON data saved to file successfully.");
+  res.status(200).send(newFeedback);
 });
 
 app.listen(port, () => {

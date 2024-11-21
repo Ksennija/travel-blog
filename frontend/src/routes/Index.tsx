@@ -1,6 +1,6 @@
 // Index page design is from here: https://freefrontend.com/css-image-grids/
 import styles from "./Index.module.css";
-import { baseImgUrl } from "../api";
+import { baseImgUrl } from "../api/countriesApi";
 
 export default function Index() {
   return (

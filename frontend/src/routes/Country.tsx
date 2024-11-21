@@ -2,7 +2,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { Form, useLoaderData, useFetcher } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
-import { baseImgUrl, getCountry, updateCountry } from "../api";
+import { baseImgUrl, getCountry, updateCountry } from "../api/countriesApi";
 
 import styles from "./Country.module.css";
 import React, { useEffect, useRef } from "react";
@@ -31,9 +31,11 @@ export const Country: React.FC = () => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    descriptionElRef.current!.innerHTML = DOMPurify.sanitize(
-      marked.parse(country.description) as string
-    );
+    if (descriptionElRef.current) {
+      descriptionElRef.current.innerHTML = DOMPurify.sanitize(
+        marked.parse(country.description) as string
+      );
+    }
   }, [country.description]);
 
   return (

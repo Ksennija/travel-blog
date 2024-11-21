@@ -1,9 +1,9 @@
-import { CountryType } from "../types/CountryType";
+import { Country } from "../types/CountryType";
 
 export type CountryProps = {
-  country: CountryType;
+  country: Country;
 };
 
 export type CountriesProps = {
-  countries: CountryType[];
+  countries: Country[];
 };

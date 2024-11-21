@@ -1,6 +1,5 @@
 import axios from "axios";
-import { CountryType } from "./types/CountryType";
-//import { CountryProps } from "./props/CountryProps";
+import { Country } from "../types/CountryType";
 
 const newCountry = {
   name: "New country",
@@ -16,12 +15,12 @@ export const api = axios.create({
 });
 
 export type CountriesResponse = {
-  allCountries?: CountryType[];
+  allCountries?: Country[];
   error?: unknown;
 };
 
 export type CountryResponse = {
-  country?: CountryType;
+  country?: Country;
   error?: unknown;
 };
 
@@ -41,6 +40,7 @@ export const fetchCountries = async (
 
 export const getCountry = async (id: string): Promise<CountryResponse> => {
   try {
+    debugger;
     const response = await api.get(`/countries/${id}`);
     const country = response.data;
     return country;
@@ -60,7 +60,7 @@ export const createCountry = async (): Promise<CountryResponse> => {
 
 export const updateCountry = async (
   id: string,
-  updates: Partial<CountryType>
+  updates: Partial<Country>
 ): Promise<CountryResponse> => {
   try {
     const response = await api.put(`/countries/${id}/update`, updates);

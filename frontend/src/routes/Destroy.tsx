@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { deleteCountry } from "../api";
+import { deleteCountry } from "../api/countriesApi";
 
 export async function action({ params }: any) {
   const result = await deleteCountry(params.countryId);

@@ -1,6 +1,10 @@
-import { CountryType } from "../types/CountryType";
+import { Country } from "../types/CountryType";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faMountainSun } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faMountainSun,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   Outlet,
   NavLink,
@@ -10,17 +14,18 @@ import {
   useNavigation,
   useSubmit,
 } from "react-router-dom";
-import { fetchCountries, createCountry } from "../api";
+import { fetchCountries, createCountry } from "../api/countriesApi";
 import { useEffect } from "react";
 
 export type LoaderDataProps = {
-  countries: CountryType[];
+  countries: Country[];
   q: string;
 };
 
 export async function action() {
-  const country = (await createCountry()) as CountryType;
-  return redirect(`/countries/${country.id}}/edit`);
+  debugger;
+  const country = (await createCountry()) as Country;
+  return redirect(`/countries/${country.id}/edit`);
 }
 
 export async function loader({ request }: any) {
@@ -103,6 +108,17 @@ export default function Root() {
                   </NavLink>
                 </li>
               ))}
+              <li>
+                <NavLink
+                  to={`/feedbacks`}
+                  className={({ isActive, isPending }) =>
+                    isActive ? "active" : isPending ? "pending" : ""
+                  }
+                >
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                  Feedbacks
+                </NavLink>
+              </li>
             </ul>
           ) : (
             <p>

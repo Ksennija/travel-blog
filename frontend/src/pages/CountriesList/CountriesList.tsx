@@ -1,10 +1,10 @@
-import { CountryType } from "../types/CountryType";
-import { baseImgUrl } from "../api";
+import { Country } from "../../types/CountryType";
+import { baseImgUrl } from "../../api/countriesApi";
 
 import styles from "./CountriesList.module.css";
 
 export type Props = {
-  countries: CountryType[];
+  countries: Country[];
 };
 
 export const CountriesList = ({ countries }: Props) => {

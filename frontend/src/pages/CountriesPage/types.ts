@@ -1,3 +1,5 @@
+export type CountriesPageParams = "countryId";
+
 export type Country = {
   id: string;
   name: string;
