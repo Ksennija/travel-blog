@@ -1,11 +1,68 @@
-.detail {
-    flex: 1;
-    padding: 2rem 4rem;
-    width: 100%;
+.countryItem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5px;
+    padding-top: 10px;
+    padding-left: 50px;
+    text-align: left;
+   }
+
+.countryContainer{
+  display: block;
+  overflow: auto;
+}
+
+   .countryImg {
+    float: right;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 20px;
+    width: 60%;
   }
   
-  .detail.loading {
-    opacity: 0.25;
-    transition: opacity 200ms;
-    transition-delay: 200ms;
+  .countryText {
+    text-align: justify;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+
+  .countryText h1 {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .countryText h1 form {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .countryText h1 form button {
+    box-shadow: none;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 0;
+  }
+
+  .countryText h1 form button[value="true"] {
+    color: #a4a4a4;
+  }
+
+  .countryText h1 form button[value="true"]:hover,
+  .countryText h1 form button[value="false"] {
+    color: #eeb004;
+  }
+
+  .buttonPanel {
+    display: flex;
+  }
+
+  .buttonPanel button {
+    margin-right: 25px;
   }
