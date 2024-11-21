@@ -1,5 +1,10 @@
 import React from "react";
-import { NavLink, useParams, Form, useNavigation } from "react-router-dom";
+import {
+  NavLink,
+  useParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { CountriesPageParams } from "../../types";
 import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
@@ -15,16 +20,21 @@ export type CountriesProps = {
   countries: Country[];
 };
 
-export const Sidebar: React.FC<CountriesProps> = ({
-  countries,
-}: CountriesProps) => {
+export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
   const { countryId } = useParams<CountriesPageParams>();
-
-  //   const navigation = useNavigation();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const searching = false;
-  //   navigation.location &&
-  //   new URLSearchParams(navigation.location.search).has("q");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearchParams(
+      {
+        q: e.target.value,
+      },
+      { replace: true }
+    );
+  };
 
   return (
     <div className={styles.sidebar}>
@@ -37,7 +47,7 @@ export const Sidebar: React.FC<CountriesProps> = ({
         <h1>Travel Blog Application</h1>
       </span>
       <div>
-        <Form id="search-form" role="search">
+        <form id="search-form" role="search">
           <input
             id="q"
             //className={searching ? "loading" : ""}
@@ -45,7 +55,9 @@ export const Sidebar: React.FC<CountriesProps> = ({
             placeholder="Search"
             type="search"
             name="q"
-            // defaultValue={q}
+            //defaultValue={q}
+            value={searchParams.get("q") ?? ""}
+            onChange={handleChange}
             // onChange={(event) => {
             //   const isFirstSearch = q == null;
             //   submit(event.currentTarget.form, {
@@ -55,10 +67,10 @@ export const Sidebar: React.FC<CountriesProps> = ({
           />
           <div id="search-spinner" aria-hidden hidden={!searching} />
           <div className="sr-only" aria-live="polite"></div>
-        </Form>
-        <Form method="post">
+        </form>
+        <form method="post">
           <button>New</button>
-        </Form>
+        </form>
       </div>
       <div className={styles.navList}>
         {countries.length ? (
