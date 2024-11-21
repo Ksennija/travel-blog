@@ -1,10 +1,10 @@
 import DOMPurify from "dompurify";
 import { marked } from "marked";
-import { Form, useFetcher } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Country } from "../../types";
 import {
   baseImgUrl,
-  getCountry,
+  deleteCountry,
   updateCountry,
 } from "../../../../api/countriesApi";
 
@@ -13,21 +13,41 @@ import React, { useState, useEffect, useRef } from "react";
 
 export type Props = {
   displayedCountry: Country;
-  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  //setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  onChange: () => void;
 };
 
 export const CountryPanel: React.FC<Props> = ({
   displayedCountry,
-  setIsLoaded,
+  //setIsLoaded,
+  onChange,
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
 
   const [country, setCountry] = useState(displayedCountry);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const navigate = useNavigate();
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
-    const newCountry = (await updateCountry(id, country)) as Country;
-    setCountry(newCountry);
+    try {
+      const newCountry = await updateCountry(id, country);
+      setCountry(newCountry);
+    } catch (e) {
+      console.error("Failed to update country", e);
+    }
+    setIsLoaded(false);
+  }
+
+  async function destroy(id: string) {
+    setIsLoaded(true);
+    try {
+      await deleteCountry(id);
+      navigate("/", { replace: true });
+    } catch (e) {
+      console.error("Failed to delete country", e);
+    }
     setIsLoaded(false);
   }
 
@@ -39,30 +59,30 @@ export const CountryPanel: React.FC<Props> = ({
     }
   }, [country.description]);
 
-  const handleFavouritesClick = (): void => {
+  const handleFavourite = (): void => {
     country.favourite = !country.favourite;
     update(country.id, country);
   };
 
+  const handleDelete = (): void => {
+    if (window.confirm("Please confirm you want to delete this record.")) {
+      destroy(country.id);
+    }
+  };
+
   return (
-    <div key={country.id} className={styles.countryItem}>
+    <div
+      key={country.id}
+      className={`${styles.countryItem} ${isLoaded ? styles.loading : ""}`}
+    >
       <div className={styles.buttonPanel}>
         <form action="edit">
           <button>Edit</button>
         </form>
-        <form
-          method="post"
-          action="destroy"
-          //   onSubmit={(event) => {
-          //     if (
-          //       !window.confirm("Please confirm you want to delete this record.")
-          //     ) {
-          //       event.preventDefault();
-          //     }
-          //   }}
-        >
-          <button>Delete</button>
-        </form>
+
+        <button className={styles.destroyButton} onClick={handleDelete}>
+          Delete
+        </button>
       </div>
       <div className={styles.countryContainer}>
         <img
@@ -82,7 +102,7 @@ export const CountryPanel: React.FC<Props> = ({
                   ? "Remove from favourites"
                   : "Add to favourites"
               }
-              onClick={handleFavouritesClick}
+              onClick={handleFavourite}
             >
               {country.favourite ? "★" : "☆"}
             </button>

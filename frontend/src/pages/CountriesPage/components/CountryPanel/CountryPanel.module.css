@@ -9,6 +9,12 @@
     text-align: left;
    }
 
+   .countryItem.loading {
+    opacity: 0.25;
+    transition: opacity 200ms;
+    transition-delay: 200ms;
+  }
+
 .countryContainer{
   display: block;
   overflow: auto;
@@ -69,4 +75,8 @@
 
   .buttonPanel button {
     margin-right: 25px;
+  }
+
+  .destroyButton {
+    color: #f44250;
   }

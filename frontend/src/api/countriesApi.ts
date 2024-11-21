@@ -14,67 +14,31 @@ export const api = axios.create({
   withCredentials: false,
 });
 
-export type CountriesResponse = {
-  allCountries?: Country[];
-  error?: unknown;
-};
-
-export type CountryResponse = {
-  country?: Country;
-  error?: unknown;
-};
-
 export const fetchCountries = async (
   query: string | null
-): Promise<CountriesResponse> => {
-  try {
-    const response = await api.get(
-      `/countries${query ? "?query=" + query : ""}`
-    );
-    const allCountries = response.data;
-    return allCountries;
-  } catch (e) {
-    return { error: e };
-  }
+): Promise<Country[]> => {
+  const response = await api.get(`/countries${query ? "?query=" + query : ""}`);
+  return response.data;
 };
 
-export const getCountry = async (id: string): Promise<CountryResponse> => {
-  try {
-    debugger;
-    const response = await api.get(`/countries/${id}`);
-    const country = response.data;
-    return country;
-  } catch (e) {
-    return { error: e };
-  }
+export const getCountry = async (id: string): Promise<Country> => {
+  const response = await api.get(`/countries/${id}`);
+  return response.data;
 };
 
-export const createCountry = async (): Promise<CountryResponse> => {
-  try {
-    const response = await api.post(`/countries/create`, newCountry);
-    return response.data;
-  } catch (e) {
-    return { error: e };
-  }
+export const createCountry = async (): Promise<Country> => {
+  const response = await api.post(`/countries/create`, newCountry);
+  return response.data;
 };
 
 export const updateCountry = async (
   id: string,
   updates: Partial<Country>
-): Promise<CountryResponse> => {
-  try {
-    const response = await api.put(`/countries/${id}/update`, updates);
-    return response.data;
-  } catch (e) {
-    return { error: e };
-  }
+): Promise<Country> => {
+  const response = await api.put(`/countries/${id}/update`, updates);
+  return response.data;
 };
 
-export const deleteCountry = async (id: string): Promise<Response | object> => {
-  try {
-    const response = await api.delete(`/countries/${id}/destroy`);
-    return response;
-  } catch (e) {
-    return { error: e };
-  }
+export const deleteCountry = async (id: string): Promise<void> => {
+  return await api.delete(`/countries/${id}/destroy`);
 };

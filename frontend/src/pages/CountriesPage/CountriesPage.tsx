@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { CountriesPageParams } from "./types";
 import { Sidebar } from "./components/Sidebar/Sidebar";
@@ -12,18 +12,27 @@ export const CountriesPage: React.FC = () => {
   const { countryId } = useParams<CountriesPageParams>();
   const [countries, setCountries] = useState<Country[]>();
   const [searchParams] = useSearchParams();
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const query = searchParams.get("q");
 
-  useEffect(() => {
-    async function fetchAllCountries(query: string | null) {
-      setIsLoaded(true);
-      const countries = (await fetchCountries(query)) as Country[];
+  const fetchAllCountries = /*useCallback(*/ async (query: string | null) => {
+    setIsLoaded(true);
+    try {
+      const countries = await fetchCountries(query);
       setCountries(countries);
-      setIsLoaded(false);
+    } catch (e) {
+      console.error("Failed to fetch countries", e);
     }
+    setIsLoaded(false);
+  }; //, []);
+
+  useEffect(() => {
     fetchAllCountries(query);
-  }, [query]);
+  }, [/*fetchAllCountries,*/ query]);
+
+  function onCountryChange() {
+    //fetchAllCountries(query);
+  }
 
   if (!countries) {
     return <div>Loading...</div>;
@@ -31,12 +40,15 @@ export const CountriesPage: React.FC = () => {
 
   return (
     <>
-      <Sidebar countries={countries} />
-      <div className={`${styles.detail} ${isLoaded ? styles.loading : ""}`}>
+      <div className={`${isLoaded ? styles.loading : ""}`}>
+        <Sidebar countries={countries} />
+      </div>
+      <div className={styles.detail}>
         {countryId ? (
           <CountryPanel
             displayedCountry={getCountry(countries, countryId)}
-            setIsLoaded={setIsLoaded}
+            //setIsLoaded={setIsLoaded}
+            onChange={onCountryChange}
           />
         ) : (
           <WelcomePanel />
