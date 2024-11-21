@@ -33,7 +33,6 @@ export type Props = {
 // }
 
 export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
-  debugger;
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
@@ -73,6 +72,18 @@ export const CountryPanel: React.FC<Props> = ({ country }: Props) => {
         <div className={styles.countryText}>
           <h1>
             {country.name}
+            <button
+              className={styles.favouriteButton}
+              name="favourite"
+              value={country.favourite ? "false" : "true"}
+              aria-label={
+                country.favourite
+                  ? "Remove from favourites"
+                  : "Add to favourites"
+              }
+            >
+              {country.favourite ? "★" : "☆"}
+            </button>
             {/* <Favourite country={country} /> */}
           </h1>
           <p className={styles.countryDescription} ref={descriptionElRef} />

@@ -21,8 +21,8 @@ export type CountriesProps = {
 };
 
 export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
-  const { countryId } = useParams<CountriesPageParams>();
-  const navigate = useNavigate();
+  //const { countryId } = useParams<CountriesPageParams>();
+  //const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const searching = false;

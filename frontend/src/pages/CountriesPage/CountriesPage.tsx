@@ -12,25 +12,27 @@ export const CountriesPage: React.FC = () => {
   const { countryId } = useParams<CountriesPageParams>();
   const [countries, setCountries] = useState<Country[]>();
   const [searchParams] = useSearchParams();
+  const [isLoaded, setIsLoaded] = useState(false);
   const query = searchParams.get("q");
 
   useEffect(() => {
     async function fetchAllCountries(query: string | null) {
+      setIsLoaded(true);
       const countries = (await fetchCountries(query)) as Country[];
       setCountries(countries);
+      setIsLoaded(false);
     }
     fetchAllCountries(query);
   }, [query]);
 
   if (!countries) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
-  debugger;
   return (
     <>
       <Sidebar countries={countries} />
-      <div className={styles.detail}>
+      <div className={`${styles.detail} ${isLoaded ? styles.loading : ""}`}>
         {countryId ? (
           <CountryPanel country={getCountry(countries, countryId)} />
         ) : (
