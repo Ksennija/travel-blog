@@ -1,4 +1,3 @@
-// Index page design is from here: https://freefrontend.com/css-image-grids/
 import styles from "./Index.module.css";
 import { baseImgUrl } from "../api/countriesApi";
 

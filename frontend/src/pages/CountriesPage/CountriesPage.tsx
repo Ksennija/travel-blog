@@ -27,9 +27,11 @@ export const CountriesPage: React.FC = () => {
     fetchAllCountries(query);
   }, [query]);
   return (
-    <div className={styles.root}>
+    <>
       <Sidebar countries={countries} />
-      {countryId ? <CountryPanel /> : <WelcomePanel />}
-    </div>
+      <div className={styles.detail}>
+        {countryId ? <CountryPanel /> : <WelcomePanel />}
+      </div>
+    </>
   );
 };

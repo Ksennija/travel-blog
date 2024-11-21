@@ -1,0 +1,50 @@
+
+.item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    column-gap: 5px;
+    padding-top: 10px;
+    padding-left: 50px;
+    text-align: left;
+   }
+
+.container{
+  display: block;
+  overflow: auto;
+}
+
+.img {
+    float: right;
+    border: none;
+    border-radius: 4px;
+    padding: 50px 10px;
+    margin: 20px;
+    width: 40%;
+  }
+
+  .container h1, h2 {
+    font-family: "Lucida Handwriting";
+    text-align: center;
+  }
+
+  .container h1 {
+    margin-top: 50px;
+    font-size: xx-large;
+  }
+
+  .container h2 {
+    font-size: x-large;
+    margin-bottom: 100px;
+  }
+
+  .container h2 {
+    font-size: x-large;
+  }
+
+  .container p {
+    font-size: x-large;
+    font-family: "Segoe Script";
+    margin-bottom: 20px;
+    text-align: center;
+  }

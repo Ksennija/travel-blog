@@ -43,7 +43,7 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
         Navigate here
       </Link> */}
       <span>
-        <FontAwesomeIcon id="travel-icon" icon={faMountainSun} />
+        <FontAwesomeIcon className={styles.travelIcon} icon={faMountainSun} />
         <h1>Travel Blog Application</h1>
       </span>
       <div>
@@ -78,7 +78,7 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
             {countries.map((country) => (
               <li key={country.id}>
                 <NavLink
-                  to={`countries/${country.id}`}
+                  to={`/countries/${country.id}`}
                   className={({ isActive, isPending }) =>
                     isActive ? styles.active : isPending ? styles.pending : ""
                   }
