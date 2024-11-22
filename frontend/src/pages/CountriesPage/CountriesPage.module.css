@@ -2,6 +2,7 @@
     flex: 1 1;
     padding: 2rem 4rem;
     width: 100%;
+    background-image: linear-gradient(#e2e2e9, white);
 }
 
 .content {
