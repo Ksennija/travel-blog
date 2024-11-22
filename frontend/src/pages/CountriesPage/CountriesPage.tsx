@@ -12,10 +12,10 @@ export const CountriesPage: React.FC = () => {
   const { countryId } = useParams<CountriesPageParams>();
   const [countries, setCountries] = useState<Country[]>();
   const [searchParams] = useSearchParams();
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
   const query = searchParams.get("q");
 
-  const fetchAllCountries = /*useCallback(*/ async (query: string | null) => {
+  const fetchAllCountries = useCallback(async (query: string | null) => {
     setIsLoaded(true);
     try {
       const countries = await fetchCountries(query);
@@ -24,14 +24,14 @@ export const CountriesPage: React.FC = () => {
       console.error("Failed to fetch countries", e);
     }
     setIsLoaded(false);
-  }; //, []);
+  }, []);
 
   useEffect(() => {
     fetchAllCountries(query);
-  }, [/*fetchAllCountries,*/ query]);
+  }, [fetchAllCountries, query]);
 
   function onCountryChange() {
-    //fetchAllCountries(query);
+    fetchAllCountries(query);
   }
 
   if (!countries) {
@@ -46,7 +46,7 @@ export const CountriesPage: React.FC = () => {
       <div className={styles.detail}>
         {countryId ? (
           <CountryPanel
-            displayedCountry={getCountry(countries, countryId)}
+            country={getCountry(countries, countryId)}
             //setIsLoaded={setIsLoaded}
             onChange={onCountryChange}
           />

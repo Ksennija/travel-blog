@@ -12,19 +12,18 @@ import styles from "./CountryPanel.module.css";
 import React, { useState, useEffect, useRef } from "react";
 
 export type Props = {
-  displayedCountry: Country;
+  country: Country;
   //setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: () => void;
 };
 
 export const CountryPanel: React.FC<Props> = ({
-  displayedCountry,
+  country, //displayedCountry
   //setIsLoaded,
   onChange,
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
 
-  const [country, setCountry] = useState(displayedCountry);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const navigate = useNavigate();
@@ -32,8 +31,11 @@ export const CountryPanel: React.FC<Props> = ({
   async function update(id: string, country: Country) {
     setIsLoaded(true);
     try {
-      const newCountry = await updateCountry(id, country);
-      setCountry(newCountry);
+      await updateCountry(id, {
+        ...country,
+        favourite: !country.favourite,
+      });
+      onChange();
     } catch (e) {
       console.error("Failed to update country", e);
     }
@@ -45,6 +47,7 @@ export const CountryPanel: React.FC<Props> = ({
     try {
       await deleteCountry(id);
       navigate("/", { replace: true });
+      onChange();
     } catch (e) {
       console.error("Failed to delete country", e);
     }
@@ -60,7 +63,6 @@ export const CountryPanel: React.FC<Props> = ({
   }, [country.description]);
 
   const handleFavourite = (): void => {
-    country.favourite = !country.favourite;
     update(country.id, country);
   };
 
