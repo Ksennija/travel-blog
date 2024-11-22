@@ -2,7 +2,7 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { Form, useLoaderData, useFetcher } from "react-router-dom";
 import { CountryProps as Props } from "../props/CountryProps";
-import { baseImgUrl, getCountry, updateCountry } from "../api/countriesApi";
+import { getCountry, updateCountry } from "../api/countriesApi";
 
 import styles from "./Country.module.css";
 import React, { useEffect, useRef } from "react";
@@ -59,11 +59,7 @@ export const Country: React.FC = () => {
         </Form>
       </div>
       <div className={styles.countryContainer}>
-        <img
-          className={styles.countryImg}
-          alt={country.name}
-          src={country.imageUrl && baseImgUrl + country.imageUrl}
-        />
+        <img className={styles.countryImg} alt={country.name} />
         <div className={styles.countryText}>
           <h1>
             {country.name}

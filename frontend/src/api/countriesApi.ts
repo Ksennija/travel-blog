@@ -7,8 +7,6 @@ const newCountry = {
   imageUrl: "/defaultImg.jpeg",
 };
 
-export const baseImgUrl = "//localhost:3001/img";
-
 export const api = axios.create({
   baseURL: "//localhost:3001/api/",
   withCredentials: false,

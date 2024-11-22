@@ -1,5 +1,5 @@
 import styles from "./WelcomePanel.module.css";
-import { baseImgUrl } from "../../../../api/countriesApi";
+import { BASE_IMG_URL } from "../../../../constants";
 
 export const WelcomePanel: React.FC = () => {
   return (
@@ -8,7 +8,7 @@ export const WelcomePanel: React.FC = () => {
         <img
           className={styles.img}
           alt="Welcome to my page"
-          src={baseImgUrl + "/mainPageImg.jpg"}
+          src={BASE_IMG_URL + "/mainPageImg.jpg"}
         />
         <div className={styles.countryText}>
           <h1>Welcome to</h1>

@@ -1,5 +1,5 @@
 import { Country } from "../../types/CountryType";
-import { baseImgUrl } from "../../api/countriesApi";
+import { BASE_IMG_URL } from "../../constants";
 
 import styles from "./CountriesList.module.css";
 
@@ -16,7 +16,7 @@ export const CountriesList = ({ countries }: Props) => {
             <img
               className={styles.countryImg}
               alt={country.name}
-              src={baseImgUrl + country.imageUrl}
+              src={BASE_IMG_URL + country.imageUrl}
             />
             <div>{country.name}</div>
             <br />

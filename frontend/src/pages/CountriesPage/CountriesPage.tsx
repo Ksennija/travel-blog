@@ -5,11 +5,14 @@ import { Sidebar } from "./components/Sidebar/Sidebar";
 import { CountryPanel } from "./components/CountryPanel/CountryPanel";
 import { WelcomePanel } from "./components/WelcomePanel/WelcomePanel";
 import { fetchCountries } from "../../api/countriesApi";
-import { Country } from "../../types/CountryType";
+import { Country } from "./types";
 import classnames from "classnames";
 import styles from "./CountriesPage.module.css";
+import { PANEL_TYPES } from "../../constants";
 
-export const CountriesPage: React.FC = () => {
+export const CountriesPage: React.FC<{
+  panelType: string;
+}> = ({ panelType }) => {
   const { countryId } = useParams<CountriesPageParams>();
   const [countries, setCountries] = useState<Country[]>();
   const [searchParams] = useSearchParams();
@@ -43,6 +46,37 @@ export const CountriesPage: React.FC = () => {
     );
   }
 
+  function getComponent() {
+    switch (panelType) {
+      case PANEL_TYPES.countryPanel:
+        if (!countries || !countryId) {
+          break;
+        }
+        return (
+          <CountryPanel
+            key={countryId}
+            country={getCountry(countries, countryId)}
+            setIsLoaded={setIsLoading}
+            onChange={onCountryChange}
+          />
+        );
+      case PANEL_TYPES.editPanel:
+        if (!countries || !countryId) {
+          break;
+        }
+        return (
+          <CountryPanel
+            key={countryId}
+            country={getCountry(countries, countryId)}
+            setIsLoaded={setIsLoading}
+            onChange={onCountryChange}
+          />
+        );
+      default:
+        return <WelcomePanel />;
+    }
+  }
+
   return (
     <div className={styles.content}>
       <Sidebar countries={countries} />
@@ -51,15 +85,7 @@ export const CountriesPage: React.FC = () => {
           [styles.loading]: isLoading,
         })}
       >
-        {countryId ? (
-          <CountryPanel
-            country={getCountry(countries, countryId)}
-            setIsLoaded={setIsLoading}
-            onChange={onCountryChange}
-          />
-        ) : (
-          <WelcomePanel />
-        )}
+        {getComponent()}
       </div>
     </div>
   );

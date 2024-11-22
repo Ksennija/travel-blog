@@ -2,11 +2,8 @@ import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { useNavigate } from "react-router-dom";
 import { Country } from "../../types";
-import {
-  baseImgUrl,
-  deleteCountry,
-  updateCountry,
-} from "../../../../api/countriesApi";
+import { deleteCountry, updateCountry } from "../../../../api/countriesApi";
+import { BASE_IMG_URL } from "../../../../constants";
 
 import styles from "./CountryPanel.module.css";
 import React, { useState, useEffect, useRef } from "react";
@@ -18,20 +15,18 @@ export type Props = {
 };
 
 export const CountryPanel: React.FC<Props> = ({
-  country, //displayedCountry
+  country,
   setIsLoaded,
   onChange,
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
+  const [editMode, setEditMode] = useState(false);
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
     try {
-      await updateCountry(id, {
-        ...country,
-        favourite: !country.favourite,
-      });
+      await updateCountry(id, country);
       onChange();
     } catch (e) {
       console.error("Failed to update country", e);
@@ -57,10 +52,17 @@ export const CountryPanel: React.FC<Props> = ({
         marked.parse(country.description) as string
       );
     }
-  }, [country.description, country.id]);
+  }, [country.description]);
 
   const handleFavourite = (): void => {
-    update(country.id, country);
+    update(country.id, {
+      ...country,
+      favourite: !country.favourite,
+    });
+  };
+
+  const handleEdit = (): void => {
+    setEditMode(true);
   };
 
   const handleDelete = (): void => {
@@ -69,13 +71,66 @@ export const CountryPanel: React.FC<Props> = ({
     }
   };
 
+  const handleSave = () => {
+    debugger;
+    console.log(country);
+    // update(country.id, {
+    //   ...country,
+    // });
+  };
+
+  const handleCancel = (): void => {
+    //navigate(-1);
+    setEditMode(false);
+  };
+
+  if (editMode) {
+    return (
+      <div key={country.id} className={styles.countryItem}>
+        <form id="contact-form">
+          <p>
+            <span>Country Name</span>
+            <input
+              placeholder="Country Name"
+              aria-label="Country Name"
+              type="text"
+              name="name"
+              defaultValue={country?.name}
+            />
+          </p>
+          <label>
+            <span>Image URL</span>
+            <input
+              placeholder="/defaultImg.jpeg"
+              aria-label="Image URL"
+              type="text"
+              name="imageUrl"
+              defaultValue={country?.imageUrl}
+            />
+          </label>
+          <label>
+            <span>Description</span>
+            <textarea
+              name="description"
+              defaultValue={country?.description}
+              rows={6}
+            />
+          </label>
+          <p>
+            <button onClick={handleSave}>Save</button>
+            <button className={styles.destroyButton} onClick={handleCancel}>
+              Cancel
+            </button>
+          </p>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div key={country.id} className={styles.countryItem}>
       <div className={styles.buttonPanel}>
-        <form action="edit">
-          <button>Edit</button>
-        </form>
-
+        <button onClick={handleEdit}>Edit</button>
         <button className={styles.destroyButton} onClick={handleDelete}>
           Delete
         </button>
@@ -84,7 +139,7 @@ export const CountryPanel: React.FC<Props> = ({
         <img
           className={styles.countryImg}
           alt={country.name}
-          src={country.imageUrl && baseImgUrl + country.imageUrl}
+          src={country.imageUrl && BASE_IMG_URL + country.imageUrl}
         />
         <div className={styles.countryText}>
           <h1>
