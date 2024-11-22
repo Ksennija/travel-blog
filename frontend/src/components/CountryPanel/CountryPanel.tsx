@@ -6,7 +6,7 @@ import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
 
 import styles from "./CountryPanel.module.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export type Props = {
   countries: Country[];
@@ -21,7 +21,6 @@ export const CountryPanel: React.FC<Props> = ({
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
-  const [editMode, setEditMode] = useState(false);
   const { countryId } = useParams<CountriesPageParams>();
 
   const country = countries.find((it) => it.id === countryId)!;
@@ -65,7 +64,7 @@ export const CountryPanel: React.FC<Props> = ({
   };
 
   const handleEdit = (): void => {
-    setEditMode(true);
+    navigate(`/countries/${country.id}/edit`);
   };
 
   const handleDelete = (): void => {
@@ -73,62 +72,6 @@ export const CountryPanel: React.FC<Props> = ({
       destroy(country.id);
     }
   };
-
-  const handleSave = () => {
-    debugger;
-    console.log(country);
-    // update(country.id, {
-    //   ...country,
-    // });
-  };
-
-  const handleCancel = (): void => {
-    //navigate(-1);
-    setEditMode(false);
-  };
-
-  if (editMode) {
-    return (
-      <div key={country.id} className={styles.countryItem}>
-        <form id="contact-form">
-          <p>
-            <span>Country Name</span>
-            <input
-              placeholder="Country Name"
-              aria-label="Country Name"
-              type="text"
-              name="name"
-              defaultValue={country?.name}
-            />
-          </p>
-          <label>
-            <span>Image URL</span>
-            <input
-              placeholder="/defaultImg.jpeg"
-              aria-label="Image URL"
-              type="text"
-              name="imageUrl"
-              defaultValue={country?.imageUrl}
-            />
-          </label>
-          <label>
-            <span>Description</span>
-            <textarea
-              name="description"
-              defaultValue={country?.description}
-              rows={6}
-            />
-          </label>
-          <p>
-            <button onClick={handleSave}>Save</button>
-            <button className={styles.destroyButton} onClick={handleCancel}>
-              Cancel
-            </button>
-          </p>
-        </form>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.countryItem}>

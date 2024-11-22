@@ -8,6 +8,8 @@ import classnames from "classnames";
 import styles from "./AppRoot.module.css";
 import { WelcomePanel } from "./components/WelcomePanel/WelcomePanel";
 import { CountryPanel } from "./components/CountryPanel/CountryPanel";
+import { EditPanel } from "./components/EditPanel/EditPanel";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 export const AppRoot: React.FC = () => {
   const [countries, setCountries] = useState<Country[]>();
@@ -52,6 +54,7 @@ export const AppRoot: React.FC = () => {
       >
         <Routes>
           <Route path="/" element={<WelcomePanel />} />
+          <Route path="*" element={<ErrorPage />} />
           <Route
             path="/countries/:countryId"
             element={
@@ -65,7 +68,7 @@ export const AppRoot: React.FC = () => {
           <Route
             path="/countries/:countryId/edit"
             element={
-              <CountryPanel
+              <EditPanel
                 countries={countries}
                 setIsLoaded={setIsLoading}
                 onChange={onCountryChange}

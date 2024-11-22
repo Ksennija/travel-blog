@@ -1,0 +1,80 @@
+.countryItem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 5px;
+    padding-top: 10px;
+    padding-left: 50px;
+    text-align: left;
+   }
+
+   .countryItem.loading {
+    opacity: 0.25;
+    transition: opacity 200ms;
+    transition-delay: 200ms;
+  }
+
+.countryContainer{
+  display: block;
+  overflow: auto;
+}
+
+   .countryImg {
+    float: right;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 20px;
+    width: 60%;
+  }
+  
+  .countryText {
+    text-align: justify;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+  }
+
+  .countryText h1 {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .favouriteButton {
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+    box-shadow: none;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 0;
+    background-color: transparent;
+  }
+
+ .favouriteButton[value="true"] {
+    color: #a4a4a4;
+  }
+
+.favouriteButton[value="true"]:hover,
+.favouriteButton[value="false"] {
+    color: #eeb004;
+  }
+
+  .favouriteButton:hover {
+    box-shadow: none;
+  }
+
+  .buttonPanel {
+    display: flex;
+  }
+
+  .buttonPanel button {
+    margin-right: 25px;
+  }
+
+  .destroyButton {
+    color: #f44250;
+  }
