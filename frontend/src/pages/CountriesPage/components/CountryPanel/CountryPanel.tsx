@@ -13,19 +13,16 @@ import React, { useState, useEffect, useRef } from "react";
 
 export type Props = {
   country: Country;
-  //setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: () => void;
 };
 
 export const CountryPanel: React.FC<Props> = ({
   country, //displayedCountry
-  //setIsLoaded,
+  setIsLoaded,
   onChange,
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
-
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const navigate = useNavigate();
 
   async function update(id: string, country: Country) {
@@ -73,10 +70,7 @@ export const CountryPanel: React.FC<Props> = ({
   };
 
   return (
-    <div
-      key={country.id}
-      className={`${styles.countryItem} ${isLoaded ? styles.loading : ""}`}
-    >
+    <div key={country.id} className={styles.countryItem}>
       <div className={styles.buttonPanel}>
         <form action="edit">
           <button>Edit</button>
