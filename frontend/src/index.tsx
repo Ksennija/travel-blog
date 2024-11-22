@@ -16,6 +16,7 @@ import EditCountry, { action as editAction } from "./routes/Edit";
 import { action as destroyAction } from "./routes/Destroy";
 import Index from "./routes/Index"; */
 import { AppRoot } from "./AppRoot";
+import { BrowserRouter } from "react-router-dom";
 
 /*const router = createBrowserRouter([
   {
@@ -62,6 +63,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <AppRoot />
+    <BrowserRouter>
+      <AppRoot />
+    </BrowserRouter>
   </React.StrictMode>
 );

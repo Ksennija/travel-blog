@@ -1,5 +1,5 @@
 import styles from "./WelcomePanel.module.css";
-import { BASE_IMG_URL } from "../../../../constants";
+import { BASE_IMG_URL } from "../../constants";
 
 export const WelcomePanel: React.FC = () => {
   return (

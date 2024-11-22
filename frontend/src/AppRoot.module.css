@@ -1,0 +1,16 @@
+.detail {
+  flex: 1 1;
+  padding: 2rem 4rem;
+  background-image: linear-gradient(#e2e2e9, white);
+}
+
+.content {
+  display: flex;
+  width: 100%;
+}
+
+.loading {
+  opacity: 0.25;
+  transition: opacity 200ms;
+  transition-delay: 200ms;
+}

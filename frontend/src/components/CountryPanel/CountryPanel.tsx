@@ -1,27 +1,30 @@
 import DOMPurify from "dompurify";
 import { marked } from "marked";
-import { useNavigate } from "react-router-dom";
-import { Country } from "../../types";
-import { deleteCountry, updateCountry } from "../../../../api/countriesApi";
-import { BASE_IMG_URL } from "../../../../constants";
+import { useNavigate, useParams } from "react-router-dom";
+import { CountriesPageParams, Country } from "../../types/types";
+import { deleteCountry, updateCountry } from "../../api/countriesApi";
+import { BASE_IMG_URL } from "../../constants";
 
 import styles from "./CountryPanel.module.css";
 import React, { useState, useEffect, useRef } from "react";
 
 export type Props = {
-  country: Country;
+  countries: Country[];
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: () => void;
 };
 
 export const CountryPanel: React.FC<Props> = ({
-  country,
+  countries,
   setIsLoaded,
   onChange,
 }) => {
   const descriptionElRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
+  const { countryId } = useParams<CountriesPageParams>();
+
+  const country = countries.find((it) => it.id === countryId)!;
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
