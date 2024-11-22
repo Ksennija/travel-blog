@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 import { marked } from "marked";
 import { useNavigate, useParams } from "react-router-dom";
-import { CountriesPageParams, Country } from "../../types/types";
+import { CountriesPageParams, Country } from "../../types";
 import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
 
@@ -131,7 +131,7 @@ export const CountryPanel: React.FC<Props> = ({
   }
 
   return (
-    <div key={country.id} className={styles.countryItem}>
+    <div className={styles.countryItem}>
       <div className={styles.buttonPanel}>
         <button onClick={handleEdit}>Edit</button>
         <button className={styles.destroyButton} onClick={handleDelete}>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Country } from "../types/CountryType";
+import { Country } from "../types";
 
 const newCountry = {
   name: "New country",

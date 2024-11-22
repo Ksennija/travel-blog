@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
-import { CountriesPageParams } from "../../types/types";
-import { Country } from "../../types/types";
+import { CountriesPageParams } from "../../types";
+import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

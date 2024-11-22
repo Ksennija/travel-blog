@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Route, Routes, useSearchParams } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar/Sidebar";
-import { Country } from "./types/CountryType";
+import { Country } from "./types";
 import { fetchCountries } from "./api/countriesApi";
 import classnames from "classnames";
 
@@ -54,6 +54,16 @@ export const AppRoot: React.FC = () => {
           <Route path="/" element={<WelcomePanel />} />
           <Route
             path="/countries/:countryId"
+            element={
+              <CountryPanel
+                countries={countries}
+                setIsLoaded={setIsLoading}
+                onChange={onCountryChange}
+              />
+            }
+          />
+          <Route
+            path="/countries/:countryId/edit"
             element={
               <CountryPanel
                 countries={countries}
