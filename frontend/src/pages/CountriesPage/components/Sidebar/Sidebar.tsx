@@ -65,8 +65,6 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
             //   });
             // }}
           />
-          <div id="search-spinner" aria-hidden hidden={!searching} />
-          <div className="sr-only" aria-live="polite"></div>
         </form>
         <form method="post">
           <button>New</button>

@@ -44,13 +44,13 @@ export const CountriesPage: React.FC = () => {
   }
 
   return (
-    <div
-      className={classnames(styles.content, {
-        [styles.loading]: isLoading,
-      })}
-    >
+    <div className={styles.content}>
       <Sidebar countries={countries} />
-      <div className={styles.detail}>
+      <div
+        className={classnames(styles.detail, {
+          [styles.loading]: isLoading,
+        })}
+      >
         {countryId ? (
           <CountryPanel
             country={getCountry(countries, countryId)}

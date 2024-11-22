@@ -57,7 +57,7 @@ export const CountryPanel: React.FC<Props> = ({
         marked.parse(country.description) as string
       );
     }
-  }, [country.description]);
+  }, [country.description, country.id]);
 
   const handleFavourite = (): void => {
     update(country.id, country);
