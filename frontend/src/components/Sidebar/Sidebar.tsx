@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
-import { CountriesPageParams } from "../../types";
+import React from "react";
+import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
 
@@ -16,11 +15,8 @@ export type CountriesProps = {
 };
 
 export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
-  //const { countryId } = useParams<CountriesPageParams>();
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const searching = false;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchParams(
@@ -29,6 +25,10 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
       },
       { replace: true }
     );
+  };
+
+  const handleNew = (): void => {
+    navigate("/countries/new/edit");
   };
 
   return (
@@ -53,17 +53,9 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
             //defaultValue={q}
             value={searchParams.get("q") ?? ""}
             onChange={handleChange}
-            // onChange={(event) => {
-            //   const isFirstSearch = q == null;
-            //   submit(event.currentTarget.form, {
-            //     replace: !isFirstSearch,
-            //   });
-            // }}
           />
         </form>
-        <form method="post">
-          <button>New</button>
-        </form>
+        <button onClick={handleNew}>New</button>
       </div>
       <div className={styles.navList}>
         {countries.length ? (

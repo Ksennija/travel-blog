@@ -1,12 +1,10 @@
-import DOMPurify from "dompurify";
-import { marked } from "marked";
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country } from "../../types";
-import { deleteCountry, updateCountry } from "../../api/countriesApi";
-import { BASE_IMG_URL } from "../../constants";
+import { updateCountry, createCountry } from "../../api/countriesApi";
+import { BASE_IMG_URL, DEFAUL_IMAGE } from "../../constants";
 
 import styles from "./EditPanel.module.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 
 export type Props = {
   countries: Country[];
@@ -23,11 +21,17 @@ export const EditPanel: React.FC<Props> = ({
 
   const { countryId } = useParams<CountriesPageParams>();
 
-  const country = countries.find((it) => it.id === countryId)!;
+  const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState(DEFAUL_IMAGE);
+  const [description, setDescription] = useState("");
 
-  const [name, setName] = useState(country.name || "");
-  const [imageUrl, setImageUrl] = useState(country.imageUrl || "");
-  const [description, setDescription] = useState(country.description || "");
+  let country: Country;
+  if (countryId !== "new") {
+    country = countries.find((it) => it.id === countryId)!;
+    setName(country.name);
+    setImageUrl(country.imageUrl || "");
+    setDescription(country.description);
+  }
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
@@ -41,13 +45,35 @@ export const EditPanel: React.FC<Props> = ({
     setIsLoaded(false);
   }
 
+  async function create(country: Omit<Country, "id">) {
+    setIsLoaded(true);
+    try {
+      const newCountry = await createCountry(country);
+      debugger;
+      onChange();
+      navigate(`/countries/${newCountry.id}`);
+    } catch (e) {
+      console.error("Failed to create new country", e);
+    }
+    setIsLoaded(false);
+  }
+
   const handleSave = () => {
-    update(country.id, {
-      ...country,
-      name: name,
-      imageUrl: imageUrl,
-      description: description,
-    });
+    if (countryId === "new") {
+      create({
+        name: name,
+        imageUrl: imageUrl,
+        description: description,
+        favourite: false,
+      });
+    } else {
+      update(country.id, {
+        ...country,
+        name: name,
+        imageUrl: imageUrl,
+        description: description,
+      });
+    }
   };
 
   const handleCancel = (): void => {
@@ -82,6 +108,7 @@ export const EditPanel: React.FC<Props> = ({
         <label>
           <span>Description</span>
           <textarea
+            placeholder="Please, write something about this country"
             name="description"
             defaultValue={description}
             rows={6}
@@ -98,27 +125,3 @@ export const EditPanel: React.FC<Props> = ({
     </div>
   );
 };
-
-/* import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { CountriesPageParams } from "../../types";
-import styles from "./CountryPanel.module.css";
-
-export const CountryPanel: React.FC = () => {
-  const { countryId } = useParams<CountriesPageParams>();
-  const navigate = useNavigate();
-
-  return (
-    <div className={styles.detail}>
-      CountryPanel {countryId}
-      <button
-        type="button"
-        onClick={() => {
-          navigate("/", { replace: true });
-        }}
-      >
-        delete
-      </button>
-    </div>
-  );
-}; */

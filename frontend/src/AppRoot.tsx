@@ -12,7 +12,7 @@ import { EditPanel } from "./components/EditPanel/EditPanel";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 export const AppRoot: React.FC = () => {
-  const [countries, setCountries] = useState<Country[]>();
+  const [countries, setCountries] = useState<Country[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
@@ -33,6 +33,8 @@ export const AppRoot: React.FC = () => {
   }, [fetchAllCountries, query]);
 
   function onCountryChange() {
+    debugger;
+    setCountries(null);
     fetchAllCountries(query);
   }
 
@@ -67,6 +69,16 @@ export const AppRoot: React.FC = () => {
           />
           <Route
             path="/countries/:countryId/edit"
+            element={
+              <EditPanel
+                countries={countries}
+                setIsLoaded={setIsLoading}
+                onChange={onCountryChange}
+              />
+            }
+          />
+          <Route
+            path="/countries/:new/edit"
             element={
               <EditPanel
                 countries={countries}
