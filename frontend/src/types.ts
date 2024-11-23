@@ -7,3 +7,15 @@ export type Country = {
   description: string;
   favourite: boolean;
 };
+
+export type Feedback = {
+  id: string;
+  name: string;
+  description: string;
+};
+
+export type Image = {
+  id: string;
+  imageUrl: string;
+  countryName: string;
+};

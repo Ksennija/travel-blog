@@ -12,6 +12,7 @@ const imgUrl = "/img";
 
 const COUNTRIES_JSON_PATH = "./data/json/countries.json";
 const FEEDBACKS_JSON_PATH = "./data/json/feedbacks.json";
+const IMAGES_JSON_PATH = "./data/json/images.json";
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -106,3 +107,26 @@ app.post(regUrl + "/feedbacks/create", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+// Image methods
+app.get(regUrl + "/images", (req: Request, res: Response) => {
+  let images = fs.readJSONSync(IMAGES_JSON_PATH);
+  if (req.params.countryName) {
+    images = images.find(
+      (image: { countryName: string }) =>
+        image.countryName === req.params.countryName
+    );
+  } else {
+    images = getRandomImages(images, 4);
+  }
+  res.status(200).send(images);
+});
+
+const getRandomImages = ([...arr], n = 1) => {
+  let m = arr.length;
+  while (m) {
+    const i = Math.floor(Math.random() * m--);
+    [arr[m], arr[i]] = [arr[i], arr[m]];
+  }
+  return arr.slice(0, n);
+};

@@ -1,15 +1,15 @@
 import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
-import { FeedbackType } from "../types/FeedbackType";
+import { Feedback } from "../types";
 import { fetchFeedbacks, createFeedback } from "../api/feedacksApi";
 import styles from "./Feedback.module.css";
 
 export type Props = {
-  feedbacks: FeedbackType[];
+  feedbacks: Feedback[];
 };
 
 export async function action({ request, params }: any) {
   const formData = await request.formData();
-  const feedback = (await createFeedback(formData)) as FeedbackType;
+  const feedback = (await createFeedback(formData)) as Feedback;
   return { feedback };
 }
 
