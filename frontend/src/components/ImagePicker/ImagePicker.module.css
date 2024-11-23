@@ -1,0 +1,40 @@
+.list {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.item {
+  flex-shrink: 0;
+  width: 40%;
+  background-color: #fff;
+  scroll-snap-align: center;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  font-family: sans-serif;
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.item img {
+  width: 100%;
+}
+
+.item :hover {
+  opacity: 0.5;
+}
+
+.selected {
+  opacity: 0.5;
+  border: 3px solid green;
+}

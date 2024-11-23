@@ -33,7 +33,6 @@ export const AppRoot: React.FC = () => {
   }, [fetchAllCountries, query]);
 
   function onCountryChange() {
-    debugger;
     setCountries(null);
     fetchAllCountries(query);
   }

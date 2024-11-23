@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { CountriesPageParams, Country } from "../../types";
+import { CountriesPageParams, Country, Image } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
-import { BASE_IMG_URL, DEFAUL_IMAGE } from "../../constants";
+import { BASE_IMG_URL, DEFAUL_COUNTRY } from "../../constants";
+import { ImagePicker } from "../ImagePicker/ImagePicker";
 
 import styles from "./EditPanel.module.css";
 import React, { useState } from "react";
@@ -12,6 +13,34 @@ export type Props = {
   onChange: () => void;
 };
 
+const images = [
+  {
+    id: "1",
+    imageUrl: "/IMG_0003.JPG",
+    countryName: "cyprus",
+  },
+  {
+    id: "2",
+    imageUrl: "/IMG_0013.JPG",
+    countryName: "cyprus",
+  },
+  {
+    id: "3",
+    imageUrl: "/IMG_0031.JPG",
+    countryName: "cyprus",
+  },
+  {
+    id: "34",
+    imageUrl: "/IMG_0031.JPG",
+    countryName: "cyprus",
+  },
+  {
+    id: "35",
+    imageUrl: "/IMG_0031.JPG",
+    countryName: "cyprus",
+  },
+];
+
 export const EditPanel: React.FC<Props> = ({
   countries,
   setIsLoaded,
@@ -21,17 +50,14 @@ export const EditPanel: React.FC<Props> = ({
 
   const { countryId } = useParams<CountriesPageParams>();
 
-  const [name, setName] = useState("");
-  const [imageUrl, setImageUrl] = useState(DEFAUL_IMAGE);
-  const [description, setDescription] = useState("");
+  const country =
+    countryId === "new"
+      ? DEFAUL_COUNTRY
+      : countries.find((it) => it.id === countryId)!;
 
-  let country: Country;
-  if (countryId !== "new") {
-    country = countries.find((it) => it.id === countryId)!;
-    setName(country.name);
-    setImageUrl(country.imageUrl || "");
-    setDescription(country.description);
-  }
+  const [name, setName] = useState(country.name);
+  const [imageUrl, setImageUrl] = useState(country.imageUrl);
+  const [description, setDescription] = useState(country.description);
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
@@ -49,7 +75,6 @@ export const EditPanel: React.FC<Props> = ({
     setIsLoaded(true);
     try {
       const newCountry = await createCountry(country);
-      debugger;
       onChange();
       navigate(`/countries/${newCountry.id}`);
     } catch (e) {
@@ -80,6 +105,10 @@ export const EditPanel: React.FC<Props> = ({
     navigate(-1);
   };
 
+  const onImageSelect = (imageUrl: string): void => {
+    setImageUrl(imageUrl);
+  };
+
   return (
     <div className={styles.countryItem}>
       <div id="contact-form">
@@ -97,14 +126,21 @@ export const EditPanel: React.FC<Props> = ({
         <label>
           <span>Image URL</span>
           <input
-            placeholder="/defaultImg.jpeg"
+            disabled
+            placeholder="Please, select image"
             aria-label="Image URL"
             type="text"
             name="imageUrl"
-            defaultValue={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            value={imageUrl}
           />
         </label>
+        <div>
+          <ImagePicker
+            images={images}
+            imageUrl={imageUrl}
+            onSelect={onImageSelect}
+          ></ImagePicker>
+        </div>
         <label>
           <span>Description</span>
           <textarea
