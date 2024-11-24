@@ -20,7 +20,9 @@ export const ImagePicker: React.FC<Props> = ({
 
   const handleImgClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     const imageId = (e.target as Element).id;
-    imageId && setSelectedId(imageId);
+    if (imageId) {
+      setSelectedId(imageId);
+    }
     onSelect(getSelectedUrl(images, imageId) || "");
   };
 
@@ -29,12 +31,8 @@ export const ImagePicker: React.FC<Props> = ({
       <div className={styles.list}>
         {images.map((img) => {
           return (
-            <>
-              <span
-                key={img.id}
-                className={styles.item}
-                onClick={handleImgClick}
-              >
+            <span key={img.id} className={styles.item} onClick={handleImgClick}>
+              <label>
                 <img
                   id={img.id}
                   className={classnames({
@@ -43,11 +41,9 @@ export const ImagePicker: React.FC<Props> = ({
                   alt={img.countryName}
                   src={BASE_IMG_URL + img.imageUrl}
                 />
-                <span className={styles.imageText}>
-                  {img.countryName || ""}
-                </span>
-              </span>
-            </>
+              </label>
+              <span className={styles.imageText}>{img.countryName || ""}</span>
+            </span>
           );
         })}
       </div>

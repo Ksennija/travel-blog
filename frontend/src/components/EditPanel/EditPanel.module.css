@@ -78,3 +78,21 @@
 .destroyButton {
   color: #f44250;
 }
+
+.image {
+  width: 15em;
+  border: 3px solid green;
+}
+
+.imageContent {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.imageContent > span {
+  width: 8em;
+}
+.imageContent > input {
+  width: 20em;
+}

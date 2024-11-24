@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country, Image } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
-import { DEFAUL_COUNTRY } from "../../constants";
+import { BASE_IMG_URL, DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
 
 import styles from "./EditPanel.module.css";
@@ -111,8 +111,13 @@ export const EditPanel: React.FC<Props> = ({
             onChange={(e) => setName(e.target.value)}
           />
         </p>
-        <label>
+        <div className={styles.imageContent}>
           <span>Image URL</span>
+          <img
+            className={styles.image}
+            alt={name}
+            src={BASE_IMG_URL + imageUrl}
+          />
           <input
             disabled
             placeholder="Please, select image"
@@ -121,14 +126,12 @@ export const EditPanel: React.FC<Props> = ({
             name="imageUrl"
             value={imageUrl}
           />
-        </label>
-        <div>
-          <ImagePicker
-            images={selectableImages}
-            imageUrl={imageUrl}
-            onSelect={onImageSelect}
-          ></ImagePicker>
         </div>
+        <ImagePicker
+          images={selectableImages}
+          imageUrl={imageUrl}
+          onSelect={onImageSelect}
+        ></ImagePicker>
         <label>
           <span>Description</span>
           <textarea
