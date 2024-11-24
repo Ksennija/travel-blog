@@ -111,10 +111,12 @@ app.listen(port, () => {
 // Image methods
 app.get(regUrl + "/images", (req: Request, res: Response) => {
   let images = fs.readJSONSync(IMAGES_JSON_PATH);
-  if (req.params.countryName) {
+
+  const query = Object(req.query);
+  if (query.countryName) {
     images = images.find(
       (image: { countryName: string }) =>
-        image.countryName === req.params.countryName.toLowerCase()
+        image.countryName === query.countryName.toLowerCase()
     );
   } else {
     images = getRandomImages(images, 6);
