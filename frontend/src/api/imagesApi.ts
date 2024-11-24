@@ -8,7 +8,7 @@ export const api = axios.create({
   withCredentials: false,
 });
 
-export const fetchImages = async (): Promise<Image> => {
+export const fetchImages = async (): Promise<Image[]> => {
   const response = await api.get(`/images`);
   return response.data;
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "../../types";
-import { BASE_IMG_URL, DEFAUL_IMAGE } from "../../constants";
+import { BASE_IMG_URL } from "../../constants";
 
 import styles from "./ImagePicker.module.css";
 import classnames from "classnames";
@@ -29,16 +29,25 @@ export const ImagePicker: React.FC<Props> = ({
       <div className={styles.list}>
         {images.map((img) => {
           return (
-            <span key={img.id} className={styles.item} onClick={handleImgClick}>
-              <img
-                id={img.id}
-                className={classnames({
-                  [styles.selected]: img.id === selectedId,
-                })}
-                alt={img.countryName}
-                src={BASE_IMG_URL + `/${img.countryName}/` + img.imageUrl}
-              />
-            </span>
+            <>
+              <span
+                key={img.id}
+                className={styles.item}
+                onClick={handleImgClick}
+              >
+                <img
+                  id={img.id}
+                  className={classnames({
+                    [styles.selected]: img.id === selectedId,
+                  })}
+                  alt={img.countryName}
+                  src={BASE_IMG_URL + img.imageUrl}
+                />
+                <span className={styles.imageText}>
+                  {img.countryName || ""}
+                </span>
+              </span>
+            </>
           );
         })}
       </div>
@@ -55,8 +64,5 @@ function getSelectedId(images: Image[], selectedUrl: string | undefined) {
 
 function getSelectedUrl(images: Image[], selectedId: string) {
   const image = images.find((img) => img.id === selectedId);
-  return (
-    image &&
-    (image.countryName ? `/${image.countryName}` : "") + image.imageUrl!
-  );
+  return image && image.imageUrl!;
 }

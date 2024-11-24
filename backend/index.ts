@@ -114,10 +114,10 @@ app.get(regUrl + "/images", (req: Request, res: Response) => {
   if (req.params.countryName) {
     images = images.find(
       (image: { countryName: string }) =>
-        image.countryName === req.params.countryName
+        image.countryName === req.params.countryName.toLowerCase()
     );
   } else {
-    images = getRandomImages(images, 4);
+    images = getRandomImages(images, 6);
   }
   res.status(200).send(images);
 });

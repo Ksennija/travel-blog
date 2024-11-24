@@ -1,45 +1,18 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country, Image } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
-import { BASE_IMG_URL, DEFAUL_COUNTRY } from "../../constants";
+import { DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
 
 import styles from "./EditPanel.module.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchImages } from "../../api/imagesApi";
 
 export type Props = {
   countries: Country[];
   setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   onChange: () => void;
 };
-
-const images = [
-  {
-    id: "1",
-    imageUrl: "/IMG_0003.JPG",
-    countryName: "cyprus",
-  },
-  {
-    id: "2",
-    imageUrl: "/IMG_0013.JPG",
-    countryName: "cyprus",
-  },
-  {
-    id: "3",
-    imageUrl: "/IMG_0031.JPG",
-    countryName: "cyprus",
-  },
-  {
-    id: "34",
-    imageUrl: "/IMG_0031.JPG",
-    countryName: "cyprus",
-  },
-  {
-    id: "35",
-    imageUrl: "/IMG_0031.JPG",
-    countryName: "cyprus",
-  },
-];
 
 export const EditPanel: React.FC<Props> = ({
   countries,
@@ -58,6 +31,21 @@ export const EditPanel: React.FC<Props> = ({
   const [name, setName] = useState(country.name);
   const [imageUrl, setImageUrl] = useState(country.imageUrl);
   const [description, setDescription] = useState(country.description);
+  const [selectableImages, setSelectableImages] = useState<Image[]>([]);
+
+  useEffect(() => {
+    const getImages = async () => {
+      setIsLoaded(true);
+      try {
+        const images = await fetchImages();
+        setSelectableImages(images);
+      } catch (e) {
+        console.error("Failed to update country", e);
+      }
+      setIsLoaded(false);
+    };
+    getImages();
+  }, []);
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
@@ -136,7 +124,7 @@ export const EditPanel: React.FC<Props> = ({
         </label>
         <div>
           <ImagePicker
-            images={images}
+            images={selectableImages}
             imageUrl={imageUrl}
             onSelect={onImageSelect}
           ></ImagePicker>

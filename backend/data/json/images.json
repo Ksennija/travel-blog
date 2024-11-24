@@ -1,77 +1,77 @@
 [
     {
         "id": "1",
-        "imageUrl": "/IMG_0003.JPG",
+        "imageUrl": "/cyprus/IMG_0003.JPG",
         "countryName": "cyprus"
     },
     {
         "id": "2",
-        "imageUrl": "/IMG_0013.JPG",
+        "imageUrl": "/cyprus/IMG_0013.JPG",
         "countryName": "cyprus"
     },
     {
         "id": "3",
-        "imageUrl": "/IMG_0031.JPG",
+        "imageUrl": "/cyprus/IMG_0031.JPG",
         "countryName": "cyprus"
     },
     {
         "id": "4",
-        "imageUrl": "/IMG_0035.JPG",
+        "imageUrl": "/cyprus/IMG_0035.JPG",
         "countryName": "cyprus"
     },
     {
         "id": "5",
-        "imageUrl": "/IMG_0060.JPG",
+        "imageUrl": "/cyprus/IMG_0060.JPG",
         "countryName": "cyprus"
     },
     {
         "id": "6",
-        "imageUrl": "/IMG_3916.JPG",
+        "imageUrl": "/italy/IMG_3916.JPG",
         "countryName": "italy"
     },
     {
         "id": "7",
-        "imageUrl": "/IMG_3983.JPG",
+        "imageUrl": "/italy/IMG_3983.JPG",
         "countryName": "italy"
     },
     {
         "id": "8",
-        "imageUrl": "/IMG_4000.JPG",
+        "imageUrl": "/italy/IMG_4000.JPG",
         "countryName": "italy"
     },
     {
         "id": "9",
-        "imageUrl": "/IMG_4050.JPG",
+        "imageUrl": "/italy/IMG_4050.JPG",
         "countryName": "italy"
     },
     {
         "id": "10",
-        "imageUrl": "/IMG_4078.JPG",
+        "imageUrl": "/italy/IMG_4078.JPG",
         "countryName": "italy"
     },
     {
         "id": "11",
-        "imageUrl": "/IMG_4249.JPG",
+        "imageUrl": "/italy/IMG_4249.JPG",
         "countryName": "italy"
     },
     {
         "id": "12",
-        "imageUrl": "/IMG_1940.JPG",
+        "imageUrl": "/lithuania/IMG_1940.JPG",
         "countryName": "lithuania"
     },
     {
         "id": "13",
-        "imageUrl": "/IMG_1974.JPG",
+        "imageUrl": "/lithuania/IMG_1974.JPG",
         "countryName": "lithuania"
     },
     {
         "id": "14",
-        "imageUrl": "/IMG_2075.JPG",
+        "imageUrl": "/lithuania/IMG_2075.JPG",
         "countryName": "lithuania"
     },
     {
         "id": "15",
-        "imageUrl": "/IMG_2118.JPG",
+        "imageUrl": "/lithuania/IMG_2118.JPG",
         "countryName": "lithuania"
     }
 ]
