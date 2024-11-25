@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  NavLink,
-  useSearchParams,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
-import { CountriesPageParams } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,16 +16,19 @@ export type CountriesProps = {
 
 export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
   const navigate = useNavigate();
-  const { countryId } = useParams<CountriesPageParams>();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchParams(
       {
         q: e.target.value,
       },
       { replace: true }
     );
+  };
+
+  const handleSearchClick = (): void => {
+    navigate("/");
   };
 
   const handleNew = (): void => {
@@ -53,7 +50,8 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
             type="search"
             name="q"
             value={searchParams.get("q") ?? ""}
-            onChange={handleChange}
+            onClick={handleSearchClick}
+            onChange={handleSearchChange}
           />
         </form>
         <button onClick={handleNew}>New</button>

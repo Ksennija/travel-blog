@@ -1,12 +1,11 @@
-import DOMPurify from "dompurify";
-import { marked } from "marked";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country } from "../../types";
 import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
+import { useDescriptionElRef } from "../../hooks/useDescriptionElRef";
 
 import styles from "./CountryPanel.module.css";
-import React, { useEffect, useRef, useState } from "react";
 
 export type Props = {
   countries: Country[];
@@ -27,24 +26,9 @@ export const CountryPanel: React.FC<Props> = ({
 
   const country = countries.find((it) => it.id === countryId)!;
 
-  // useRef helps to make text markup for country description
-  // before rendering I parse the text with the marked and sanitize the output HTML,
-  // following the instructions in the documentation
-  // https://marked.js.org/
-
-  const descriptionElRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    if (descriptionElRef.current) {
-      descriptionElRef.current.innerHTML = DOMPurify.sanitize(
-        marked.parse(country.description) as string
-      );
-    }
-  }, [country.description]);
+  const { descriptionElRef } = useDescriptionElRef(country?.description || "");
 
   async function update(id: string, country: Country) {
-    debugger;
-
     onMutating(true);
     try {
       await updateCountry(id, country);
