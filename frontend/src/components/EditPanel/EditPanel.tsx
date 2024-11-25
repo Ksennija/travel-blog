@@ -113,11 +113,6 @@ export const EditPanel: React.FC<Props> = ({
         </p>
         <div className={styles.imageContent}>
           <span>Image URL</span>
-          <img
-            className={styles.image}
-            alt={name}
-            src={BASE_IMG_URL + imageUrl}
-          />
           <input
             disabled
             placeholder="Please, select image"
@@ -125,6 +120,11 @@ export const EditPanel: React.FC<Props> = ({
             type="text"
             name="imageUrl"
             value={imageUrl}
+          />
+          <img
+            className={styles.image}
+            alt={name}
+            src={BASE_IMG_URL + imageUrl}
           />
         </div>
         <ImagePicker

@@ -43,30 +43,6 @@
   gap: 1rem;
 }
 
-.favouriteButton {
-  display: flex;
-  align-items: center;
-  margin-top: 0.25rem;
-  box-shadow: none;
-  font-size: 1.5rem;
-  font-weight: 400;
-  padding: 0;
-  background-color: transparent;
-}
-
-.favouriteButton[value="true"] {
-  color: #a4a4a4;
-}
-
-.favouriteButton[value="true"]:hover,
-.favouriteButton[value="false"] {
-  color: #eeb004;
-}
-
-.favouriteButton:hover {
-  box-shadow: none;
-}
-
 .buttonPanel {
   display: flex;
 }
@@ -80,7 +56,7 @@
 }
 
 .image {
-  width: 15em;
+  width: 5em;
   border: 3px solid green;
 }
 
@@ -91,8 +67,8 @@
 }
 
 .imageContent > span {
-  width: 8em;
+  width: 7em;
 }
 .imageContent > input {
-  width: 20em;
+  width: 26em;
 }
