@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Country } from "../types";
+import { HOSTNAME } from "../constants";
 
 export const api = axios.create({
-  baseURL: "//localhost:3001/api/",
+  baseURL: `${HOSTNAME}/api/`,
   withCredentials: false,
 });
 

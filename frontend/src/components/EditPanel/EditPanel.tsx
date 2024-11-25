@@ -3,6 +3,7 @@ import { CountriesPageParams, Country, Image } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL, DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import styles from "./EditPanel.module.css";
 import React, { useState, useEffect } from "react";
@@ -10,18 +11,28 @@ import { fetchImages } from "../../api/imagesApi";
 
 export type Props = {
   countries: Country[];
-  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  onMutating: (isMutating: boolean) => void;
   onChange: () => void;
 };
 
 export const EditPanel: React.FC<Props> = ({
   countries,
-  setIsLoaded,
+  onMutating,
   onChange,
 }) => {
   const navigate = useNavigate();
 
   const { countryId } = useParams<CountriesPageParams>();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Country>();
+  const onSubmit: SubmitHandler<Country> = (data) => console.log(data);
+
+  console.log(watch("name")); // watch input value by passing the name of it
 
   const country =
     countryId === "new"
@@ -35,20 +46,20 @@ export const EditPanel: React.FC<Props> = ({
 
   useEffect(() => {
     const getImages = async () => {
-      setIsLoaded(true);
+      onMutating(true);
       try {
         const images = await fetchImages();
         setSelectableImages(images);
       } catch (e) {
         console.error("Failed to update country", e);
       }
-      setIsLoaded(false);
+      onMutating(false);
     };
     getImages();
-  }, [setIsLoaded]);
+  }, []);
 
   async function update(id: string, country: Country) {
-    setIsLoaded(true);
+    onMutating(true);
     try {
       await updateCountry(id, country);
       onChange();
@@ -56,11 +67,11 @@ export const EditPanel: React.FC<Props> = ({
     } catch (e) {
       console.error("Failed to update country", e);
     }
-    setIsLoaded(false);
+    onMutating(false);
   }
 
   async function create(country: Omit<Country, "id">) {
-    setIsLoaded(true);
+    onMutating(true);
     try {
       const newCountry = await createCountry(country);
       onChange();
@@ -68,7 +79,7 @@ export const EditPanel: React.FC<Props> = ({
     } catch (e) {
       console.error("Failed to create new country", e);
     }
-    setIsLoaded(false);
+    onMutating(false);
   }
 
   const handleSave = () => {
@@ -98,7 +109,7 @@ export const EditPanel: React.FC<Props> = ({
   };
 
   return (
-    <div className={styles.countryItem}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.countryItem}>
       <div id="contact-form">
         <p>
           <span>Country Name</span>
@@ -106,11 +117,22 @@ export const EditPanel: React.FC<Props> = ({
             placeholder="Country Name"
             aria-label="Country Name"
             type="text"
-            name="name"
             defaultValue={name}
-            onChange={(e) => setName(e.target.value)}
+            {...register("name", { required: true, maxLength: 60 })}
           />
+          {errors.name && (
+            <span>This field is required, maximal length is 60 characters</span>
+          )}
         </p>
+        <label>
+          <span>Description</span>
+          <textarea
+            placeholder="Please, write something about this country"
+            rows={6}
+            defaultValue={description}
+            {...register("description")}
+          />
+        </label>
         <div className={styles.imageContent}>
           <span>Image URL</span>
           <input
@@ -130,25 +152,15 @@ export const EditPanel: React.FC<Props> = ({
         <ImagePicker
           images={selectableImages}
           imageUrl={imageUrl}
-          onSelect={onImageSelect}
+          onChange={onImageSelect}
         ></ImagePicker>
-        <label>
-          <span>Description</span>
-          <textarea
-            placeholder="Please, write something about this country"
-            name="description"
-            defaultValue={description}
-            rows={6}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </label>
-        <p>
-          <button onClick={handleSave}>Save</button>
+        <p className={styles.buttons}>
+          <button type="submit">Save</button>
           <button className={styles.destroyButton} onClick={handleCancel}>
             Cancel
           </button>
         </p>
       </div>
-    </div>
+    </form>
   );
 };

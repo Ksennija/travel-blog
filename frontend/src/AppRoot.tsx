@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar/Sidebar";
 import { Country } from "./types";
-import { fetchCountries } from "./api/countriesApi";
+import { useCountries } from "./hooks/useCountries";
 import classnames from "classnames";
 
 import styles from "./AppRoot.module.css";
@@ -12,29 +12,11 @@ import { EditPanel } from "./components/EditPanel/EditPanel";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 export const AppRoot: React.FC = () => {
-  const [countries, setCountries] = useState<Country[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("q");
-
-  const fetchAllCountries = useCallback(async (query: string | null) => {
-    setIsLoading(true);
-    try {
-      const countries = await fetchCountries(query);
-      setCountries(countries);
-    } catch (e) {
-      console.error("Failed to fetch countries", e);
-    }
-    setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    fetchAllCountries(query);
-  }, [fetchAllCountries, query]);
+  const { countries, isLoading, refetch } = useCountries();
+  const [isMutating, setIsMutating] = useState(false);
 
   function onCountryChange() {
-    setCountries(null);
-    fetchAllCountries(query);
+    refetch();
   }
 
   if (!countries) {
@@ -50,7 +32,7 @@ export const AppRoot: React.FC = () => {
       <Sidebar countries={countries} />
       <div
         className={classnames(styles.detail, {
-          [styles.loading]: isLoading,
+          [styles.loading]: isLoading || isMutating,
         })}
       >
         <Routes>
@@ -61,8 +43,9 @@ export const AppRoot: React.FC = () => {
             element={
               <CountryPanel
                 countries={countries}
-                setIsLoaded={setIsLoading}
+                onMutating={(isMutating) => setIsMutating(isMutating)}
                 onChange={onCountryChange}
+                disabled={isMutating || isLoading}
               />
             }
           />
@@ -71,7 +54,7 @@ export const AppRoot: React.FC = () => {
             element={
               <EditPanel
                 countries={countries}
-                setIsLoaded={setIsLoading}
+                onMutating={(isMutating) => setIsMutating(isMutating)}
                 onChange={onCountryChange}
               />
             }
@@ -81,7 +64,7 @@ export const AppRoot: React.FC = () => {
             element={
               <EditPanel
                 countries={countries}
-                setIsLoaded={setIsLoading}
+                onMutating={(isMutating) => setIsMutating(isMutating)}
                 onChange={onCountryChange}
               />
             }

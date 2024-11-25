@@ -6,18 +6,20 @@ import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
 
 import styles from "./CountryPanel.module.css";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export type Props = {
   countries: Country[];
-  setIsLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+  onMutating: (isMutating: boolean) => void;
   onChange: () => void;
+  disabled?: boolean;
 };
 
 export const CountryPanel: React.FC<Props> = ({
   countries,
-  setIsLoaded,
+  onMutating,
   onChange,
+  disabled,
 }) => {
   const navigate = useNavigate();
 
@@ -41,18 +43,20 @@ export const CountryPanel: React.FC<Props> = ({
   }, [country.description]);
 
   async function update(id: string, country: Country) {
-    setIsLoaded(true);
+    debugger;
+
+    onMutating(true);
     try {
       await updateCountry(id, country);
       onChange();
     } catch (e) {
       console.error("Failed to update country", e);
     }
-    setIsLoaded(false);
+    onMutating(false);
   }
 
   async function destroy(id: string) {
-    setIsLoaded(true);
+    onMutating(true);
     try {
       await deleteCountry(id);
       navigate("/", { replace: true });
@@ -60,7 +64,7 @@ export const CountryPanel: React.FC<Props> = ({
     } catch (e) {
       console.error("Failed to delete country", e);
     }
-    setIsLoaded(false);
+    onMutating(false);
   }
 
   const handleFavourite = (): void => {
@@ -83,8 +87,14 @@ export const CountryPanel: React.FC<Props> = ({
   return (
     <div className={styles.countryItem}>
       <div className={styles.buttonPanel}>
-        <button onClick={handleEdit}>Edit</button>
-        <button className={styles.destroyButton} onClick={handleDelete}>
+        <button disabled={disabled} onClick={handleEdit}>
+          Edit
+        </button>
+        <button
+          disabled={disabled}
+          className={styles.destroyButton}
+          onClick={handleDelete}
+        >
           Delete
         </button>
       </div>
@@ -107,6 +117,7 @@ export const CountryPanel: React.FC<Props> = ({
                   : "Add to favourites"
               }
               onClick={handleFavourite}
+              disabled={disabled}
             >
               {country.favourite ? "★" : "☆"}
             </button>

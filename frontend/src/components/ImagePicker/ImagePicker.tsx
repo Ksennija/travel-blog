@@ -8,13 +8,13 @@ import classnames from "classnames";
 export type Props = {
   images: Image[];
   imageUrl?: string;
-  onSelect: (imageUrl: string) => void;
+  onChange: (imageUrl: string) => void;
 };
 
 export const ImagePicker: React.FC<Props> = ({
   images,
   imageUrl,
-  onSelect,
+  onChange,
 }) => {
   const [selectedId, setSelectedId] = useState(getSelectedId(images, imageUrl));
 
@@ -23,7 +23,7 @@ export const ImagePicker: React.FC<Props> = ({
     if (imageId) {
       setSelectedId(imageId);
     }
-    onSelect(getSelectedUrl(images, imageId) || "");
+    onChange(getSelectedUrl(images, imageId) || "");
   };
 
   return (

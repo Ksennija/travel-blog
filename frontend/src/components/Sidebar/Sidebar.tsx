@@ -1,7 +1,13 @@
 import React from "react";
-import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useSearchParams,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
+import { CountriesPageParams } from "../../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +22,7 @@ export type CountriesProps = {
 
 export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
   const navigate = useNavigate();
+  const { countryId } = useParams<CountriesPageParams>();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

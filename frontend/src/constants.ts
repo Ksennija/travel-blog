@@ -1,4 +1,6 @@
-export const BASE_IMG_URL = "//localhost:3001/img";
+export const HOSTNAME = "//localhost:3001";
+
+export const BASE_IMG_URL = `${HOSTNAME}/img`;
 
 export const DEFAUL_IMAGE = "/defaultImg.jpeg";
 
