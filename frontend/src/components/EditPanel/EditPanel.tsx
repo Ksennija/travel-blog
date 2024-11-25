@@ -45,7 +45,7 @@ export const EditPanel: React.FC<Props> = ({
       setIsLoaded(false);
     };
     getImages();
-  }, []);
+  }, [setIsLoaded]);
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);

@@ -87,7 +87,7 @@
 .imageContent {
   display: flex;
   gap: 1em;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .imageContent > span {

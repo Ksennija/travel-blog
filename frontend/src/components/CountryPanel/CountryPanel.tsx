@@ -19,11 +19,26 @@ export const CountryPanel: React.FC<Props> = ({
   setIsLoaded,
   onChange,
 }) => {
-  const descriptionElRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
+
   const { countryId } = useParams<CountriesPageParams>();
 
   const country = countries.find((it) => it.id === countryId)!;
+
+  // useRef helps to make text markup for country description
+  // before rendering I parse the text with the marked and sanitize the output HTML,
+  // following the instructions in the documentation
+  // https://marked.js.org/
+
+  const descriptionElRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (descriptionElRef.current) {
+      descriptionElRef.current.innerHTML = DOMPurify.sanitize(
+        marked.parse(country.description) as string
+      );
+    }
+  }, [country.description]);
 
   async function update(id: string, country: Country) {
     setIsLoaded(true);
@@ -47,14 +62,6 @@ export const CountryPanel: React.FC<Props> = ({
     }
     setIsLoaded(false);
   }
-
-  useEffect(() => {
-    if (descriptionElRef.current) {
-      descriptionElRef.current.innerHTML = DOMPurify.sanitize(
-        marked.parse(country.description) as string
-      );
-    }
-  }, [country.description]);
 
   const handleFavourite = (): void => {
     update(country.id, {
@@ -103,7 +110,6 @@ export const CountryPanel: React.FC<Props> = ({
             >
               {country.favourite ? "★" : "☆"}
             </button>
-            {/* <Favourite country={country} /> */}
           </h1>
           <p className={styles.countryDescription} ref={descriptionElRef} />
         </div>
@@ -111,27 +117,3 @@ export const CountryPanel: React.FC<Props> = ({
     </div>
   );
 };
-
-/* import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { CountriesPageParams } from "../../types";
-import styles from "./CountryPanel.module.css";
-
-export const CountryPanel: React.FC = () => {
-  const { countryId } = useParams<CountriesPageParams>();
-  const navigate = useNavigate();
-
-  return (
-    <div className={styles.detail}>
-      CountryPanel {countryId}
-      <button
-        type="button"
-        onClick={() => {
-          navigate("/", { replace: true });
-        }}
-      >
-        delete
-      </button>
-    </div>
-  );
-}; */

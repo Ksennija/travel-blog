@@ -33,10 +33,6 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
 
   return (
     <div className={styles.sidebar}>
-      {/* Sidebar
-      <Link to="/countries/here" relative="path">
-        Navigate here
-      </Link> */}
       <span>
         <FontAwesomeIcon className={styles.travelIcon} icon={faMountainSun} />
         <h1>Travel Blog Application</h1>
@@ -45,12 +41,10 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
         <form id="search-form" role="search">
           <input
             id="q"
-            //className={searching ? "loading" : ""}
             aria-label="Search countries"
             placeholder="Search"
             type="search"
             name="q"
-            //defaultValue={q}
             value={searchParams.get("q") ?? ""}
             onChange={handleChange}
           />
@@ -60,6 +54,17 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
       <div className={styles.navList}>
         {countries.length ? (
           <ul>
+            <li key="faHome" className={styles.homeLink}>
+              <NavLink
+                to={`/`}
+                className={({ isActive, isPending }) =>
+                  isActive ? styles.active : isPending ? styles.pending : ""
+                }
+              >
+                <b>Home</b>
+                <FontAwesomeIcon icon={faHouse} />
+              </NavLink>
+            </li>
             {countries.map((country) => (
               <li key={country.id}>
                 <NavLink
@@ -79,17 +84,6 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
             <i>The list is empty</i>
           </p>
         )}
-        {/*  <a
-       href="mypath"
-        type="button"
-        onClick={(e) => {
-            e.preventDefault()
-          // navigates to a different page
-          navigate();
-        }}
-      >
-        link
-      </a> */}
       </div>
     </div>
   );
