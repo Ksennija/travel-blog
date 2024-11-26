@@ -28,7 +28,6 @@ export const ImagePicker: React.FC<Props> = ({
 
   return (
     <div className={styles.content}>
-      <p>Please, select the image</p>
       <div className={styles.list}>
         {images.map((img) => {
           return (
