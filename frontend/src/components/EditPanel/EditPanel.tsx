@@ -29,17 +29,18 @@ export const EditPanel: React.FC<Props> = ({
       ? DEFAUL_COUNTRY
       : countries.find((it) => it.id === countryId)!;
 
-  const { images } = useImages();
+  let { images } = useImages();
   // todo Later I can get the selected image form server
-  const allImages = [
-    {
-      id: "selected",
-      imageUrl: country.imageUrl || "",
-      countryName: country.name,
-    },
-    ...images,
-  ];
-
+  if (country.imageUrl) {
+    images = [
+      {
+        id: "selected",
+        imageUrl: country.imageUrl || "",
+        countryName: country.name,
+      },
+      ...images,
+    ];
+  }
   const {
     register,
     handleSubmit,
@@ -119,7 +120,7 @@ export const EditPanel: React.FC<Props> = ({
           rules={{ required: true }}
           render={({ field: { onChange: onImageSelect } }) => (
             <ImagePicker
-              images={allImages}
+              images={images}
               imageUrl={country.imageUrl}
               onChange={onImageSelect}
             />

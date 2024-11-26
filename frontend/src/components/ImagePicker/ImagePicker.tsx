@@ -59,6 +59,9 @@ function getSelectedId(images: Image[], selectedUrl: string | undefined) {
 }
 
 function getSelectedUrl(images: Image[], selectedId: string) {
+  if (!selectedId) {
+    return null;
+  }
   const image = images.find((img) => img.id === selectedId);
-  return image && image.imageUrl!;
+  return image && image.imageUrl;
 }
