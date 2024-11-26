@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar/Sidebar";
-import { Country } from "./types";
 import { useCountries } from "./hooks/useCountries";
 import classnames from "classnames";
 

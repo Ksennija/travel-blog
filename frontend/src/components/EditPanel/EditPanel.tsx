@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { CountriesPageParams, Country, Image } from "../../types";
+import { CountriesPageParams, Country } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL, DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useImages } from "../../hooks/useImages";
 
 import styles from "./EditPanel.module.css";
-import React, { useState, useEffect } from "react";
-import { fetchImages } from "../../api/imagesApi";
+import React, { useState } from "react";
 
 export type Props = {
   countries: Country[];
@@ -17,7 +17,7 @@ export type Props = {
 
 export const EditPanel: React.FC<Props> = ({
   countries,
-  onMutating,
+  onMutating, // onMutating and onChange are used to disable page while loading data
   onChange,
 }) => {
   const navigate = useNavigate();
@@ -32,31 +32,13 @@ export const EditPanel: React.FC<Props> = ({
   } = useForm<Country>();
   const onSubmit: SubmitHandler<Country> = (data) => console.log(data);
 
-  console.log(watch("name")); // watch input value by passing the name of it
-
   const country =
     countryId === "new"
       ? DEFAUL_COUNTRY
       : countries.find((it) => it.id === countryId)!;
 
-  const [name, setName] = useState(country.name);
   const [imageUrl, setImageUrl] = useState(country.imageUrl);
-  const [description, setDescription] = useState(country.description);
-  const [selectableImages, setSelectableImages] = useState<Image[]>([]);
-
-  useEffect(() => {
-    const getImages = async () => {
-      onMutating(true);
-      try {
-        const images = await fetchImages();
-        setSelectableImages(images);
-      } catch (e) {
-        console.error("Failed to update country", e);
-      }
-      onMutating(false);
-    };
-    getImages();
-  }, []);
+  const { images } = useImages(onMutating);
 
   async function update(id: string, country: Country) {
     onMutating(true);
@@ -82,23 +64,24 @@ export const EditPanel: React.FC<Props> = ({
     onMutating(false);
   }
 
-  const handleSave = () => {
-    if (countryId === "new") {
-      create({
-        name: name,
-        imageUrl: imageUrl,
-        description: description,
-        favourite: false,
-      });
-    } else {
-      update(country.id, {
-        ...country,
-        name: name,
-        imageUrl: imageUrl,
-        description: description,
-      });
-    }
-  };
+  // const handleSave = () => {
+  //   const values = getValues();
+  //   if (countryId === "new") {
+  //     create({
+  //       name: name,
+  //       imageUrl: imageUrl,
+  //       description: description,
+  //       favourite: false,
+  //     });
+  //   } else {
+  //     update(country.id, {
+  //       ...country,
+  //       name: name,
+  //       imageUrl: imageUrl,
+  //       description: description,
+  //     });
+  //   }
+  // };
 
   const handleCancel = (): void => {
     navigate(-1);
@@ -117,7 +100,7 @@ export const EditPanel: React.FC<Props> = ({
             placeholder="Country Name"
             aria-label="Country Name"
             type="text"
-            defaultValue={name}
+            defaultValue={country.name}
             {...register("name", { required: true, maxLength: 60 })}
           />
           {errors.name && (
@@ -129,28 +112,29 @@ export const EditPanel: React.FC<Props> = ({
           <textarea
             placeholder="Please, write something about this country"
             rows={6}
-            defaultValue={description}
+            defaultValue={country.description}
             {...register("description")}
           />
         </label>
         <div className={styles.imageContent}>
           <span>Image URL</span>
           <input
-            disabled
+            readOnly
             placeholder="Please, select image"
             aria-label="Image URL"
             type="text"
-            name="imageUrl"
+            defaultValue={imageUrl}
             value={imageUrl}
+            {...register("imageUrl")}
           />
           <img
             className={styles.image}
-            alt={name}
+            alt={country.name}
             src={BASE_IMG_URL + imageUrl}
           />
         </div>
         <ImagePicker
-          images={selectableImages}
+          images={images}
           imageUrl={imageUrl}
           onChange={onImageSelect}
         ></ImagePicker>
