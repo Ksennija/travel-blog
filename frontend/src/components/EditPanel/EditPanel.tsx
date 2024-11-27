@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country } from "../../types";
 import { updateCountry, createCountry } from "../../api/countriesApi";
@@ -5,23 +6,21 @@ import { DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useImages } from "../../hooks/useImages";
+import { CountryContext } from "../../CountryContext";
 
 import styles from "./EditPanel.module.css";
-import React from "react";
 
 export type Props = {
-  countries: Country[];
   onMutating: (isMutating: boolean) => void;
   onChange: () => void;
 };
 
 export const EditPanel: React.FC<Props> = ({
-  countries,
   onMutating, // onMutating and onChange are used to disable page while loading data
   onChange,
 }) => {
   const navigate = useNavigate();
-
+  const countries = useContext(CountryContext);
   const { countryId } = useParams<CountriesPageParams>();
 
   const country =
@@ -127,7 +126,7 @@ export const EditPanel: React.FC<Props> = ({
           )}
         />
       </div>
-      {/* */}
+
       <p className={styles.buttons}>
         <button type="submit">Save</button>
         <button className={styles.destroyButton} onClick={handleCancel}>

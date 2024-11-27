@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
@@ -9,12 +9,9 @@ import {
   faMountainSun,
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
+import { CountryContext } from "../../CountryContext";
 
-export type CountriesProps = {
-  countries: Country[];
-};
-
-export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
+export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -26,6 +23,8 @@ export const Sidebar: React.FC<CountriesProps> = ({ countries }) => {
       { replace: true }
     );
   };
+  debugger;
+  const countries = useContext(CountryContext);
 
   const handleSearchClick = (): void => {
     navigate("/");

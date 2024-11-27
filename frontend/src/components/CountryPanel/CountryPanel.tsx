@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country } from "../../types";
 import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
 import { useDescriptionElRef } from "../../hooks/useDescriptionElRef";
+import { CountryContext } from "../../CountryContext";
 
 import styles from "./CountryPanel.module.css";
 
 export type Props = {
-  countries: Country[];
   onMutating: (isMutating: boolean) => void;
   onChange: () => void;
   disabled?: boolean;
 };
 
 export const CountryPanel: React.FC<Props> = ({
-  countries,
   onMutating,
   onChange,
   disabled,
 }) => {
   const navigate = useNavigate();
+
+  const countries = useContext(CountryContext);
 
   const { countryId } = useParams<CountriesPageParams>();
 
