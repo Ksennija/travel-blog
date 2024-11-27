@@ -6,21 +6,13 @@ import { DEFAUL_COUNTRY } from "../../constants";
 import { ImagePicker } from "../ImagePicker/ImagePicker";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useImages } from "../../hooks/useImages";
-import { CountryContext } from "../../CountryContext";
+import { CountryPageContext } from "../../CountryPageContext";
 
 import styles from "./EditPanel.module.css";
 
-export type Props = {
-  onMutating: (isMutating: boolean) => void;
-  onChange: () => void;
-};
-
-export const EditPanel: React.FC<Props> = ({
-  onMutating, // onMutating and onChange are used to disable page while loading data
-  onChange,
-}) => {
+export const EditPanel: React.FC = () => {
   const navigate = useNavigate();
-  const countries = useContext(CountryContext);
+  const { countries, onMutating, onChange } = useContext(CountryPageContext);
   const { countryId } = useParams<CountriesPageParams>();
 
   const country =
@@ -60,27 +52,27 @@ export const EditPanel: React.FC<Props> = ({
   };
 
   async function update(id: string, country: Omit<Country, "id">) {
-    onMutating(true);
+    onMutating && onMutating(true);
     try {
       await updateCountry(id, country);
-      onChange();
+      onChange && onChange();
       navigate(`/countries/${id}`);
     } catch (e) {
       console.error("Failed to update country", e);
     }
-    onMutating(false);
+    onMutating && onMutating(false);
   }
 
   async function create(country: Omit<Country, "id">) {
-    onMutating(true);
+    onMutating && onMutating(true);
     try {
       const newCountry = await createCountry(country);
-      onChange();
+      onChange && onChange();
       navigate(`/countries/${newCountry.id}`);
     } catch (e) {
       console.error("Failed to create new country", e);
     }
-    onMutating(false);
+    onMutating && onMutating(false);
   }
 
   const handleCancel = (): void => {

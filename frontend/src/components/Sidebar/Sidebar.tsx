@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
-import { Country } from "../../types";
 import styles from "./Sidebar.module.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,7 +8,7 @@ import {
   faMountainSun,
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
-import { CountryContext } from "../../CountryContext";
+import { CountryPageContext } from "../../CountryPageContext";
 
 export const Sidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ export const Sidebar: React.FC = () => {
     );
   };
   debugger;
-  const countries = useContext(CountryContext);
+  const { countries } = useContext(CountryPageContext);
 
   const handleSearchClick = (): void => {
     navigate("/");

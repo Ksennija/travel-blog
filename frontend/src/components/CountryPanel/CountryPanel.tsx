@@ -4,24 +4,15 @@ import { CountriesPageParams, Country } from "../../types";
 import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { BASE_IMG_URL } from "../../constants";
 import { useDescriptionElRef } from "../../hooks/useDescriptionElRef";
-import { CountryContext } from "../../CountryContext";
+import { CountryPageContext } from "../../CountryPageContext";
 
 import styles from "./CountryPanel.module.css";
 
-export type Props = {
-  onMutating: (isMutating: boolean) => void;
-  onChange: () => void;
-  disabled?: boolean;
-};
-
-export const CountryPanel: React.FC<Props> = ({
-  onMutating,
-  onChange,
-  disabled,
-}) => {
+export const CountryPanel: React.FC = () => {
   const navigate = useNavigate();
 
-  const countries = useContext(CountryContext);
+  const { countries, onMutating, onChange, disabled } =
+    useContext(CountryPageContext);
 
   const { countryId } = useParams<CountriesPageParams>();
 
@@ -30,26 +21,26 @@ export const CountryPanel: React.FC<Props> = ({
   const { descriptionElRef } = useDescriptionElRef(country?.description || "");
 
   async function update(id: string, country: Country) {
-    onMutating(true);
+    onMutating && onMutating(true);
     try {
       await updateCountry(id, country);
-      onChange();
+      onChange && onChange();
     } catch (e) {
       console.error("Failed to update country", e);
     }
-    onMutating(false);
+    onMutating && onMutating(false);
   }
 
   async function destroy(id: string) {
-    onMutating(true);
+    onMutating && onMutating(true);
     try {
       await deleteCountry(id);
       navigate("/", { replace: true });
-      onChange();
+      onChange && onChange();
     } catch (e) {
       console.error("Failed to delete country", e);
     }
-    onMutating(false);
+    onMutating && onMutating(false);
   }
 
   const handleFavourite = (): void => {
