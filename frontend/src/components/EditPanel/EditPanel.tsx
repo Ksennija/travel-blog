@@ -95,17 +95,21 @@ export const EditPanel: React.FC = () => {
           defaultValue={country.name}
           {...register("name", { required: true, maxLength: 60 })}
         />
-        {errors.name && (
-          <span>This field is required, maximal length is 60 characters</span>
-        )}
       </p>
+      {errors.name && (
+        <p className={styles.errorMessage}>
+          <span>
+            The field Country name is required, maximal length is 60 characters
+          </span>
+        </p>
+      )}
       <label>
         <span>Description</span>
         <textarea
           placeholder="Please, write something about this country"
           rows={6}
           defaultValue={country.description}
-          {...register("description")}
+          {...(register("description"), { required: true })}
         />
       </label>
       <div className={styles.imageContent}>
