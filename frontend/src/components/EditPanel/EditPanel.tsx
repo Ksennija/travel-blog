@@ -12,7 +12,8 @@ import styles from "./EditPanel.module.css";
 
 export const EditPanel: React.FC = () => {
   const navigate = useNavigate();
-  const { countries, onMutating, onChange } = useContext(CountryPageContext);
+  const { countries, onMutating, onChange, setErrorMessage } =
+    useContext(CountryPageContext);
   const { countryId } = useParams<CountriesPageParams>();
 
   const country =
@@ -59,6 +60,8 @@ export const EditPanel: React.FC = () => {
       navigate(`/countries/${id}`);
     } catch (e) {
       console.error("Failed to update country", e);
+      setErrorMessage && setErrorMessage((e as Error).message);
+      navigate("*");
     }
     onMutating && onMutating(false);
   }
@@ -71,6 +74,8 @@ export const EditPanel: React.FC = () => {
       navigate(`/countries/${newCountry.id}`);
     } catch (e) {
       console.error("Failed to create new country", e);
+      setErrorMessage && setErrorMessage((e as Error).message);
+      navigate("*");
     }
     onMutating && onMutating(false);
   }
@@ -108,7 +113,6 @@ export const EditPanel: React.FC = () => {
         <Controller
           name="imageUrl"
           control={control}
-          rules={{ required: true }}
           render={({ field: { onChange: onImageSelect } }) => (
             <ImagePicker
               images={images}

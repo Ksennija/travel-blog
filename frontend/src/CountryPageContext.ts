@@ -6,6 +6,7 @@ export type Props = {
   onMutating?: (isMutating: boolean) => void; // onMutating and onChange are used to disable page while loading data
   onChange?: () => void;
   disabled?: boolean;
+  setErrorMessage?: (errorMessage: string) => void;
 };
 
 export const CountryPageContext = createContext<Props>({
