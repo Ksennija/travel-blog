@@ -80,7 +80,7 @@ export const EditPanel: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.countryItem}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.countryForm}>
       <p>
         <span>Country Name</span>
         <input

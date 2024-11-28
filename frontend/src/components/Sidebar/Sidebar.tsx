@@ -22,7 +22,7 @@ export const Sidebar: React.FC = () => {
       { replace: true }
     );
   };
-  debugger;
+
   const { countries } = useContext(CountryPageContext);
 
   const handleSearchClick = (): void => {

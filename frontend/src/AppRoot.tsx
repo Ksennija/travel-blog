@@ -18,7 +18,6 @@ export const AppRoot: React.FC = () => {
   function onCountryChange() {
     refetch();
   }
-  debugger;
   if (!countries) {
     return (
       <div>
