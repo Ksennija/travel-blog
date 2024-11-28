@@ -72,3 +72,7 @@
 .buttons {
   justify-content: flex-end;
 }
+
+.formDetails {
+  font-size: small;
+}

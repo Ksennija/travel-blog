@@ -45,6 +45,7 @@ export const EditPanel: React.FC = () => {
   });
   const onSubmit: SubmitHandler<Omit<Country, "id">> = (data) => {
     const savedData = { ...data, favourite: country.favourite };
+
     if (countryId === "new") {
       create(savedData);
     } else {
@@ -109,11 +110,14 @@ export const EditPanel: React.FC = () => {
           placeholder="Please, write something about this country"
           rows={6}
           defaultValue={country.description}
-          {...(register("description"), { required: true })}
+          {...register("description", { required: true })}
         />
       </label>
       <div className={styles.imageContent}>
-        <span>Image</span>
+        <span>
+          Image{" "}
+          <span className={styles.formDetails}>(please, click to select)</span>
+        </span>
         <Controller
           name="imageUrl"
           control={control}

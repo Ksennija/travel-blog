@@ -18,6 +18,7 @@ export const CountryPanel: React.FC = () => {
 
   const country = countries.find((it) => it.id === countryId)!;
 
+  // this custom hook is used for formatting description text
   const { descriptionElRef } = useDescriptionElRef(country?.description || "");
 
   async function update(id: string, country: Country) {
@@ -75,11 +76,8 @@ export const CountryPanel: React.FC = () => {
         </button>
       </div>
       <div className={styles.countryContainer}>
-        <img
-          className={styles.countryImg}
-          alt={country.name}
-          src={country.imageUrl && BASE_IMG_URL + country.imageUrl}
-        />
+        <Image imageUrl={country.imageUrl} countryName={country.name} />
+
         <div className={styles.countryText}>
           <h1>
             {country.name}
@@ -103,4 +101,22 @@ export const CountryPanel: React.FC = () => {
       </div>
     </div>
   );
+};
+
+type ImgProps = {
+  countryName: string;
+  imageUrl: string | undefined;
+};
+
+const Image: React.FC<ImgProps> = ({ imageUrl, countryName }) => {
+  if (imageUrl) {
+    return (
+      <img
+        className={styles.countryImg}
+        alt={countryName}
+        src={BASE_IMG_URL + imageUrl}
+      />
+    );
+  }
+  return null;
 };
