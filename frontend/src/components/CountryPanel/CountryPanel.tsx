@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CountriesPageParams, Country } from "../../types";
 import { deleteCountry, updateCountry } from "../../api/countriesApi";
-import { BASE_IMG_URL } from "../../constants";
 import { useDescriptionElRef } from "../../hooks/useDescriptionElRef";
 import { CountryPageContext } from "../../CountryPageContext";
+import { CountryImage } from "../CountryImage/CountryImage";
 
 import styles from "./CountryPanel.module.css";
 
@@ -76,7 +76,7 @@ export const CountryPanel: React.FC = () => {
         </button>
       </div>
       <div className={styles.countryContainer}>
-        <Image imageUrl={country.imageUrl} countryName={country.name} />
+        <CountryImage imageUrl={country.imageUrl} countryName={country.name} />
 
         <div className={styles.countryText}>
           <h1>
@@ -101,22 +101,4 @@ export const CountryPanel: React.FC = () => {
       </div>
     </div>
   );
-};
-
-type ImgProps = {
-  countryName: string;
-  imageUrl: string | undefined;
-};
-
-const Image: React.FC<ImgProps> = ({ imageUrl, countryName }) => {
-  if (imageUrl) {
-    return (
-      <img
-        className={styles.countryImg}
-        alt={countryName}
-        src={BASE_IMG_URL + imageUrl}
-      />
-    );
-  }
-  return null;
 };

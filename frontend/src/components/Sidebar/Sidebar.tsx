@@ -3,11 +3,7 @@ import { NavLink, useSearchParams, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faMountainSun,
-  faPenToSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { CountryPageContext } from "../../CountryPageContext";
 
 export const Sidebar: React.FC = () => {
@@ -35,10 +31,6 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div className={styles.sidebar}>
-      <span>
-        <FontAwesomeIcon className={styles.travelIcon} icon={faMountainSun} />
-        <h1>Travel Blog Application</h1>
-      </span>
       <div>
         <form id="search-form" role="search">
           <input

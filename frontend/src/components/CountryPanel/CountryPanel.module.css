@@ -20,16 +20,6 @@
   overflow: auto;
 }
 
-.countryImg {
-  float: right;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: white;
-  padding: 10px;
-  margin: 20px;
-  width: 60%;
-}
-
 .countryText {
   text-align: justify;
   margin-block-start: 1em;
