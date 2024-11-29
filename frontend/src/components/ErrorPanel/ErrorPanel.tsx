@@ -1,8 +1,8 @@
-import styles from "./ErrorPage.module.css";
+import styles from "./ErrorPanel.module.css";
 
 export type Props = { errorMessage: string };
 
-export const ErrorPage: React.FC<Props> = ({ errorMessage }) => {
+export const ErrorPanel: React.FC<Props> = ({ errorMessage }) => {
   return (
     <div className={styles.errorPage}>
       <h1>Oops!</h1>

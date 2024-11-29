@@ -8,7 +8,7 @@ import styles from "./AppRoot.module.css";
 import { WelcomePanel } from "./components/WelcomePanel/WelcomePanel";
 import { CountryPanel } from "./components/CountryPanel/CountryPanel";
 import { EditPanel } from "./components/EditPanel/EditPanel";
-import { ErrorPage } from "./components/ErrorPage/ErrorPage";
+import { ErrorPanel } from "./components/ErrorPanel/ErrorPanel";
 import { CountryPageContext } from "./CountryPageContext";
 
 export const AppRoot: React.FC = () => {
@@ -48,7 +48,7 @@ export const AppRoot: React.FC = () => {
             <Route path="/" element={<WelcomePanel />} />
             <Route
               path="*"
-              element={<ErrorPage errorMessage={errorMessage} />}
+              element={<ErrorPanel errorMessage={errorMessage} />}
             />
             <Route path="/countries/:countryId" element={<CountryPanel />} />
             <Route path="/countries/:countryId/edit" element={<EditPanel />} />
