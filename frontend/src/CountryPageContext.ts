@@ -3,8 +3,8 @@ import { Country } from "./types";
 
 export type Props = {
   countries: Country[];
-  onMutating?: (isMutating: boolean) => void; // onMutating and onChange are used to disable page while loading data
-  onChange?: () => void; // onChange blurs the page, isMitatting makes the button disabled while saving changes
+  onMutating?: (isMutating: boolean) => void; // onMutating blurs the page while saving changes
+  onChange?: () => void; // onChange is called after making changes to reload the list of the countres in the AppRoot
   disabled?: boolean;
   setErrorMessage?: (errorMessage: string) => void;
 };

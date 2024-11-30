@@ -5,6 +5,7 @@ import { deleteCountry, updateCountry } from "../../api/countriesApi";
 import { useDescriptionElRef } from "../../hooks/useDescriptionElRef";
 import { CountryPageContext } from "../../CountryPageContext";
 import { CountryImage } from "../CountryImage/CountryImage";
+import { showConfirmationModal } from "../../shared/ui/showConfirmationModal";
 
 import styles from "./CountryPanel.module.css";
 
@@ -56,7 +57,9 @@ export const CountryPanel: React.FC = () => {
   };
 
   const handleDelete = (): void => {
-    if (window.confirm("Please confirm you want to delete this record.")) {
+    if (
+      showConfirmationModal("Please confirm you want to delete this record.")
+    ) {
       destroy(country.id);
     }
   };
@@ -96,7 +99,11 @@ export const CountryPanel: React.FC = () => {
               {country.favourite ? "★" : "☆"}
             </button>
           </h1>
-          <p className={styles.countryDescription} ref={descriptionElRef} />
+          <p
+            data-testid="description"
+            className={styles.countryDescription}
+            ref={descriptionElRef}
+          />
         </div>
       </div>
     </div>
