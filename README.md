@@ -29,9 +29,9 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.
 
-# Main projict features
+# Main project features
 
-The frontend part has component AppRoot that uses React-router-dom and renders the component Sidebar with the list of the countries on the left side of the page. For the right side there are three different options depending on routing: WelcomePanel - some introduction page, CountryPanel - the details of the country and EditPanel.
+The frontend part has component AppRoot that uses React-router-dom and renders the component Sidebar with the list of the countries on the left side of the page. On the right side there are three different options depending on routing: WelcomePanel - some introduction page, CountryPanel - the details of the country and EditPanel.
 
 For styling I used Module CSS.
 
