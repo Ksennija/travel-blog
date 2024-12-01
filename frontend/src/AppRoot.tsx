@@ -35,7 +35,7 @@ export const AppRoot: React.FC = () => {
           onMutating: (isMutating) => setIsMutating(isMutating),
           onChange: onCountryChange,
           disabled: isMutating || isLoading,
-          setErrorMessage: (errorMessage) => setErrorMessage(errorMessage),
+          onErrorMessage: (errorMessage) => setErrorMessage(errorMessage),
         }}
       >
         <Sidebar />

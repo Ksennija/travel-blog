@@ -12,7 +12,7 @@ import styles from "./EditPanel.module.css";
 
 export const EditPanel: React.FC = () => {
   const navigate = useNavigate();
-  const { countries, onMutating, onChange, setErrorMessage } =
+  const { countries, onMutating, onChange, onErrorMessage } =
     useContext(CountryPageContext);
   const { countryId } = useParams<CountriesPageParams>();
   let { images } = useImages();
@@ -53,6 +53,7 @@ export const EditPanel: React.FC = () => {
     }
   };
 
+  // edit country
   async function update(id: string, country: Omit<Country, "id">) {
     onMutating && onMutating(true);
     try {
@@ -61,12 +62,13 @@ export const EditPanel: React.FC = () => {
       navigate(`/countries/${id}`);
     } catch (e) {
       console.error("Failed to update country", e);
-      setErrorMessage && setErrorMessage((e as Error).message);
+      onErrorMessage && onErrorMessage((e as Error).message);
       navigate("*");
     }
     onMutating && onMutating(false);
   }
 
+  // create a new country
   async function create(country: Omit<Country, "id">) {
     onMutating && onMutating(true);
     try {
@@ -75,7 +77,7 @@ export const EditPanel: React.FC = () => {
       navigate(`/countries/${newCountry.id}`);
     } catch (e) {
       console.error("Failed to create new country", e);
-      setErrorMessage && setErrorMessage((e as Error).message);
+      onErrorMessage && onErrorMessage((e as Error).message);
       navigate("*");
     }
     onMutating && onMutating(false);
@@ -87,12 +89,10 @@ export const EditPanel: React.FC = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, (errors) => {
-        debugger;
-      })}
+      onSubmit={handleSubmit(onSubmit, (errors) => {})}
       className={styles.countryForm}
     >
-      <p>
+      <div className={styles.textField}>
         <label htmlFor="name-field">Country Name</label>
         <input
           id="name-field"
@@ -100,7 +100,7 @@ export const EditPanel: React.FC = () => {
           type="text"
           {...register("name", { required: true, maxLength: 60 })}
         />
-      </p>
+      </div>
       {errors.name && (
         <p className={styles.errorMessage}>
           <span>
@@ -108,7 +108,7 @@ export const EditPanel: React.FC = () => {
           </span>
         </p>
       )}
-      <div>
+      <div className={styles.textField}>
         <label htmlFor="description-field">Description</label>
         <textarea
           id="description-field"

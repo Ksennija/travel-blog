@@ -6,7 +6,7 @@ export type Props = {
   onMutating?: (isMutating: boolean) => void; // onMutating blurs the page while saving changes
   onChange?: () => void; // onChange is called after making changes to reload the list of the countres in the AppRoot
   disabled?: boolean;
-  setErrorMessage?: (errorMessage: string) => void;
+  onErrorMessage?: (errorMessage: string) => void;
 };
 
 export const CountryPageContext = createContext<Props>({

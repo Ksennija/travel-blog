@@ -4,24 +4,27 @@
   flex-direction: column;
   gap: 1rem;
 }
-.countryForm > p:first-child {
+.countryForm .textField:first-child {
   margin: 0;
   padding: 0;
 }
 
-.countryForm > p:first-child,
-.countryForm label,
+.countryForm .textField,
 .countryForm .errorMessage {
   display: flex;
 }
-.countryForm p:first-child span,
-.countryForm label span {
+
+.countryForm .textField label {
   width: 8rem;
 }
-.countryForm p:first-child input,
-.countryForm label input,
-.countryForm label textarea {
+
+.countryForm .textField input,
+.countryForm .textField textarea {
   flex-grow: 2;
+}
+
+.countryForm .textField:last-child {
+  margin-bottom: 8rem;
 }
 
 .errorMessage {
@@ -29,22 +32,6 @@
   margin-top: 0;
   font-size: small;
   color: red;
-}
-
-.countryForm-avatar {
-  margin-right: 2rem;
-}
-
-.countryForm-avatar img {
-  width: 12rem;
-  height: 12rem;
-  background: hsla(0, 0%, 0%, 0.2);
-  border-radius: 1rem;
-}
-
-.countryForm-avatar input {
-  box-sizing: border-box;
-  width: 100%;
 }
 
 .countryForm p:last-child {
