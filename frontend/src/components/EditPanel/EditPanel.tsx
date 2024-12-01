@@ -83,13 +83,19 @@ export const EditPanel: React.FC = () => {
     onMutating && onMutating(false);
   }
 
-  const handleCancel = (): void => {
+  const handleCancel = () => {
     navigate(-1);
+  };
+
+  const handleErrors = (errors: Error) => {
+    console.log(errors);
+    onErrorMessage && onErrorMessage("Failes to submit the form");
+    navigate("*");
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit, (errors) => {})}
+      onSubmit={handleSubmit(onSubmit, () => handleErrors)}
       className={styles.countryForm}
     >
       <div className={styles.textField}>
@@ -137,7 +143,7 @@ export const EditPanel: React.FC = () => {
 
       <p className={styles.buttons}>
         <button type="submit">Save</button>
-        <button className={styles.destroyButton} onClick={handleCancel}>
+        <button type="button" onClick={handleCancel}>
           Cancel
         </button>
       </p>

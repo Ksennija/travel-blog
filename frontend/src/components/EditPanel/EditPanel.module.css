@@ -41,7 +41,7 @@
 }
 
 .countryForm p:last-child button[type="button"] {
-  color: inherit;
+  color: #f44250;
 }
 
 .buttonPanel {
@@ -50,10 +50,6 @@
 
 .buttonPanel button {
   margin-right: 25px;
-}
-
-.destroyButton {
-  color: #f44250;
 }
 
 .buttons {

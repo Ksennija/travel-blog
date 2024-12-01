@@ -32,16 +32,14 @@ export const ImagePicker: React.FC<Props> = ({
         {images.map((img) => {
           return (
             <span key={img.id} className={styles.item} onClick={handleImgClick}>
-              <label>
-                <img
-                  id={img.id}
-                  className={classnames({
-                    [styles.selected]: img.id === selectedId,
-                  })}
-                  alt={img.countryName}
-                  src={BASE_IMG_URL + img.imageUrl}
-                />
-              </label>
+              <img
+                id={img.id}
+                className={classnames({
+                  [styles.selected]: img.id === selectedId,
+                })}
+                alt={img.countryName}
+                src={BASE_IMG_URL + img.imageUrl}
+              />
               <span className={styles.imageText}>{img.countryName || ""}</span>
             </span>
           );
