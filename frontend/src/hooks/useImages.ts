@@ -16,5 +16,6 @@ export const useImages = () => {
     };
     getImages();
   }, []);
+
   return { images };
 };

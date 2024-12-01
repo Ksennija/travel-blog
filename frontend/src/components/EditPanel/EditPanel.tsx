@@ -15,13 +15,22 @@ export const EditPanel: React.FC = () => {
   const { countries, onMutating, onChange, setErrorMessage } =
     useContext(CountryPageContext);
   const { countryId } = useParams<CountriesPageParams>();
-
+  let { images } = useImages();
   const country =
     countryId === "new"
       ? DEFAUL_COUNTRY
       : countries.find((it) => it.id === countryId)!;
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Country>({
+    defaultValues: {
+      ...country,
+    },
+  });
 
-  let { images } = useImages();
   // todo Later I can get the selected image form server
   if (country.imageUrl) {
     images = [
@@ -33,16 +42,7 @@ export const EditPanel: React.FC = () => {
       ...images,
     ];
   }
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<Country>({
-    defaultValues: {
-      imageUrl: country.imageUrl,
-    },
-  });
+
   const onSubmit: SubmitHandler<Omit<Country, "id">> = (data) => {
     const savedData = { ...data, favourite: country.favourite };
 
@@ -86,14 +86,18 @@ export const EditPanel: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.countryForm}>
+    <form
+      onSubmit={handleSubmit(onSubmit, (errors) => {
+        debugger;
+      })}
+      className={styles.countryForm}
+    >
       <p>
-        <span>Country Name</span>
+        <label htmlFor="name-field">Country Name</label>
         <input
+          id="name-field"
           placeholder="Country Name"
-          aria-label="Country Name"
           type="text"
-          defaultValue={country.name}
           {...register("name", { required: true, maxLength: 60 })}
         />
       </p>
@@ -104,15 +108,15 @@ export const EditPanel: React.FC = () => {
           </span>
         </p>
       )}
-      <label>
-        <span>Description</span>
+      <div>
+        <label htmlFor="description-field">Description</label>
         <textarea
+          id="description-field"
           placeholder="Please, write something about this country"
           rows={6}
-          defaultValue={country.description}
           {...register("description", { required: true })}
         />
-      </label>
+      </div>
       <div className={styles.imageContent}>
         <span>
           Image{" "}

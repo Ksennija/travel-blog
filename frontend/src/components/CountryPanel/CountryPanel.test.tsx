@@ -33,20 +33,7 @@ function renderUnderTest(onChangeMock: jest.Mock, onMutatingMock: jest.Mock) {
 }
 
 describe("<CountryPanel>", () => {
-  it("should call onChange when deleting the country", () => {
-    const onChangeMock = jest.fn();
-    const onMutatingMock = jest.fn();
-    (showConfirmationModal as jest.Mock).mockReturnValue(true);
-
-    renderUnderTest(onChangeMock, onMutatingMock);
-
-    userEvent.click(screen.getByRole("button", { name: /delete/i }));
-
-    expect(onMutatingMock).toHaveBeenCalled();
-    //screen.logTestingPlaygroundURL();
-  });
-
-  it("should render the country name in the heading and description", () => {
+  it("should render the country name in the heading and the description", () => {
     const onChangeMock = jest.fn();
     const onMutatingMock = jest.fn();
 
@@ -54,5 +41,16 @@ describe("<CountryPanel>", () => {
 
     expect(screen.getByRole("heading")).toBeInTheDocument();
     expect(screen.getByTestId("description")).toBeInTheDocument();
+  });
+
+  it("should call onChange when deleting the country", () => {
+    const onChangeMock = jest.fn();
+    const onMutatingMock = jest.fn();
+    (showConfirmationModal as jest.Mock).mockReturnValue(true);
+    renderUnderTest(onChangeMock, onMutatingMock);
+
+    userEvent.click(screen.getByRole("button", { name: /delete/i }));
+
+    expect(onMutatingMock).toHaveBeenCalled();
   });
 });
