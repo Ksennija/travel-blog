@@ -26,7 +26,6 @@ export const AppRoot: React.FC = () => {
       </div>
     );
   }
-  console.log(countries);
   return (
     <div className={styles.content}>
       <CountryPageContext.Provider

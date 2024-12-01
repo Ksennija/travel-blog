@@ -123,6 +123,11 @@ export const EditPanel: React.FC = () => {
           {...register("description", { required: true })}
         />
       </div>
+      {errors.description && (
+        <p className={styles.errorMessage}>
+          <span>The field Description is required</span>
+        </p>
+      )}
       <div className={styles.imageContent}>
         <span>
           Image{" "}
