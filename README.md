@@ -13,7 +13,7 @@ https://levelup.gitconnected.com/fullstack-react-node-js-typescript-e52c0698281e
 
 In the project directory, you can run:
 
-### `npm run build`
+### `npm run dev`
 
 I used the package called concurrently, so this command runs both backend and frontend.
 
